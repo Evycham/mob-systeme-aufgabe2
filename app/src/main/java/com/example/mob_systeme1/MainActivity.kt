@@ -173,11 +173,12 @@ class MainActivity : AppCompatActivity() {
 
         // if last char is one of the operators - change
         val lastChar = expression.last()
+
         if(lastChar == '-' || lastChar == '+' || lastChar == '*' || lastChar == '/'){
             expression.dropLast(1)
-            expression += operator
-            updateDisplay(expression)
         }
+        expression += operator
+        updateDisplay(expression)
     }
 
     /**
