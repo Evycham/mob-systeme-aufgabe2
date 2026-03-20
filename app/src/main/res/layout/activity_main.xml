@@ -35,13 +35,21 @@
         <Button
             android:id="@+id/btnMR"
             android:text="MR"
-            style="@style/ClacButton"
+            android:layout_width = "0dp"
+            android:layout_height = "64dp"
+            android:layout_margin = "6dp"
+            android:layout_columnWeight = "1"
+            android:textSize = "20sp"
             />
 
         <Button
             android:id="@+id/btnMS"
             android:text="MS"
-            style="@style/ClacButton"
+            android:layout_width = "0dp"
+            android:layout_height = "64dp"
+            android:layout_margin = "6dp"
+            android:layout_columnWeight = "1"
+            android:textSize = "20sp"
             />
 
         <Button

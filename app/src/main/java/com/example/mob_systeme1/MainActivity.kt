@@ -187,8 +187,9 @@ class MainActivity : AppCompatActivity() {
     private fun saveMemory(){
         if(!expression.isEmpty() || tvDisplay.text.toString() != "ERROR"){
             memory1 = tvDisplay.text.toString()
+            Toast.makeText(this, "Your result was successfully saved!", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "Your result was successfully saved!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "There is nothing to save!", Toast.LENGTH_SHORT).show()
     }
 
     /**
