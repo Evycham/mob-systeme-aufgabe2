@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width ="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#201E28"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/tvDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:gravity="end|center_vertical"
+        android:text="0"
+        android:textSize="36sp"
+        android:textColor="#FFFFFF"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/border" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="4"
+        android:rowCount="5"
+        android:useDefaultMargins="true"
+        android:alignmentMode="alignMargins"
+        android:layout_marginTop="8dp">
+
+
+        <Button
+            android:id="@+id/btnMR"
+            android:text="MR"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnMS"
+            android:text="MS"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/clean"
+            android:text="C"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnDelete"
+            android:text="⌫"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn7"
+            android:text="7"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn8"
+            android:text="8"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn9"
+            android:text="9"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnDivide"
+            android:text="/"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn4"
+            android:text="4"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn5"
+            android:text="5"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn6"
+            android:text="6"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnMultiply"
+            android:text="*"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn1"
+            android:text="1"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn2"
+            android:text="2"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn3"
+            android:text="3"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnMinus"
+            android:text="-"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnDot"
+            android:text="."
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btn0"
+            android:text="0"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnEquals"
+            android:text="="
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+        <Button
+            android:id="@+id/btnPlus"
+            android:text="+"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1"
+            />
+
+
+
+
+
+    </GridLayout>
+</LinearLayout>
