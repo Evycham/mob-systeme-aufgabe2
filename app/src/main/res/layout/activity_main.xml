@@ -18,7 +18,8 @@
         android:textSize="36sp"
         android:textColor="#FFFFFF"
         android:padding="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
         android:background="@drawable/border" />
 
     <GridLayout
@@ -50,7 +51,7 @@
             />
 
         <Button
-            android:id="@+id/clean"
+            android:id="@+id/btnClean"
             android:text="C"
             android:layout_width="0dp"
             android:layout_height="64dp"
