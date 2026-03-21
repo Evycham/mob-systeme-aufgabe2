@@ -45,119 +45,135 @@
         <Button
             android:id="@+id/btnMS"
             android:text="MS"
-            android:layout_width = "0dp"
-            android:layout_height = "64dp"
-            android:layout_margin = "6dp"
-            android:layout_columnWeight = "1"
-            android:textSize = "20sp"
+            style="@style/textButton"
             />
 
         <Button
             android:id="@+id/btnClean"
             android:text="C"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnDelete"
             android:text="⌫"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn7"
             android:text="7"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn8"
             android:text="8"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn9"
             android:text="9"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnDivide"
             android:text="/"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn4"
             android:text="4"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn5"
             android:text="5"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn6"
             android:text="6"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnMultiply"
             android:text="*"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn1"
             android:text="1"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn2"
             android:text="2"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn3"
             android:text="3"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnMinus"
             android:text="-"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnDot"
             android:text="."
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btn0"
             android:text="0"
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnEquals"
             android:text="="
-            style="@style/ClacButton"
+            style="@style/clacButton"
             />
 
         <Button
             android:id="@+id/btnPlus"
             android:text="+"
-            style="@style/ClacButton"
+            style="@style/clacButton"
+            />
+        <Button
+            android:id="@+id/btnSin"
+            android:text="sin"
+            style="@style/textButton"
+            />
+        <Button
+            android:id="@+id/btnCos"
+            android:text="cos"
+            style="@style/textButton"
+            />
+        <Button
+            android:id="@+id/btnTan"
+            android:text="tan"
+            style="@style/textButton"
+            />
+        <Button
+            android:id="@+id/btnCtg"
+            android:text="ctg"
+            style="@style/textButton"
             />
 
 

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
+import kotlin.math.exp
 
 
 /**
@@ -92,6 +93,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnMS).setOnClickListener { saveMemory() }
         // loading
         findViewById<Button>(R.id.btnMR).setOnClickListener { loadMemory() }
+
+        // Trigonometry
+        findViewById<Button>(R.id.btnSin).setOnClickListener { trigonometry("sin") }
+        findViewById<Button>(R.id.btnCos).setOnClickListener { trigonometry("cos") }
+        findViewById<Button>(R.id.btnTan).setOnClickListener { trigonometry("tan") }
+        findViewById<Button>(R.id.btnCtg).setOnClickListener { trigonometry("ctg") }
     }
     /**
     * Function for the calculating of the input
@@ -208,5 +215,15 @@ class MainActivity : AppCompatActivity() {
         } else{
             Toast.makeText(this, "Warning!\nYou haven't save something yet!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun trigonometry(selectedFunction: String){
+        when (selectedFunction) {
+            "sin" -> expression += "sin("
+            "cos" -> expression += "cos("
+            "tan" -> expression += "tan("
+            "ctg" -> expression += "ctg("
+        }
+        updateDisplay(expression)
     }
 }
