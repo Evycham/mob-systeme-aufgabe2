@@ -7,8 +7,9 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
-import kotlin.math.exp
 
+
+// TODO: in ReadMe has to be said that trigonometrical functions work only with radiant and not with grads
 
 /**
  * First home task for the subject "Mobile Systeme".
@@ -18,6 +19,7 @@ import kotlin.math.exp
  *
  * @author Yurii Gruzevych
  * Mat. num. = 20367
+ * Version 2
  * */
 
 class MainActivity : AppCompatActivity() {
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         // cleaning
         findViewById<Button>(R.id.btnClean).setOnClickListener{
-            expression = ""
+            expression = "0"
             lastResult = ""
             updateDisplay(expression)
         }
@@ -84,6 +86,12 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnMultiply).setOnClickListener { appendOperator("*") }
         findViewById<Button>(R.id.btnDivide).setOnClickListener { appendOperator("/") }
 
+        // Trigonometry
+        findViewById<Button>(R.id.btnSin).setOnClickListener { trigonometry("sin") }
+        findViewById<Button>(R.id.btnCos).setOnClickListener { trigonometry("cos") }
+        findViewById<Button>(R.id.btnTan).setOnClickListener { trigonometry("tan") }
+        findViewById<Button>(R.id.btnCtg).setOnClickListener { trigonometry("ctg") }
+
         // setup for the "equals" Button
         findViewById<Button>(R.id.btnEquals).setOnClickListener {
             calculateResult()
@@ -94,11 +102,6 @@ class MainActivity : AppCompatActivity() {
         // loading
         findViewById<Button>(R.id.btnMR).setOnClickListener { loadMemory() }
 
-        // Trigonometry
-        findViewById<Button>(R.id.btnSin).setOnClickListener { trigonometry("sin") }
-        findViewById<Button>(R.id.btnCos).setOnClickListener { trigonometry("cos") }
-        findViewById<Button>(R.id.btnTan).setOnClickListener { trigonometry("tan") }
-        findViewById<Button>(R.id.btnCtg).setOnClickListener { trigonometry("ctg") }
     }
     /**
     * Function for the calculating of the input
@@ -107,6 +110,7 @@ class MainActivity : AppCompatActivity() {
         if(expression.isEmpty()) return
 
         try{
+            expression = countSymbols(expression)
             val result = ExpressionBuilder(expression).build().evaluate()
 
             if (result.isInfinite() || result.isNaN()){
@@ -217,13 +221,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Basic setup for the buttons which respond fpr the trigonometry
+     * */
     private fun trigonometry(selectedFunction: String){
         when (selectedFunction) {
             "sin" -> expression += "sin("
             "cos" -> expression += "cos("
             "tan" -> expression += "tan("
-            "ctg" -> expression += "ctg("
+            "ctg" -> expression += "1/tan("
         }
         updateDisplay(expression)
+    }
+
+    /**
+     * Function which helps to count all "(" wich was used in trigonometrical functions
+     * @param input - the String where it has to be counted
+     * */
+    private fun countSymbols(input: String): String{
+        var result = input
+
+        val opened = input.count{ it == '(' }
+
+        for(i in 0 until opened){
+            result += ")"
+        }
+
+        return result
     }
 }
