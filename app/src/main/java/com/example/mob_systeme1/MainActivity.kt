@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
+import kotlin.math.exp
 
 
 // TODO: in ReadMe has to be said that trigonometrical functions work only with radiant and not with grads
@@ -55,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnClean).setOnClickListener{
             expression = "0"
             lastResult = ""
+            memory1 = ""
             updateDisplay(expression)
         }
 
@@ -90,7 +92,9 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSin).setOnClickListener { trigonometry("sin") }
         findViewById<Button>(R.id.btnCos).setOnClickListener { trigonometry("cos") }
         findViewById<Button>(R.id.btnTan).setOnClickListener { trigonometry("tan") }
-        findViewById<Button>(R.id.btnCtg).setOnClickListener { trigonometry("ctg") }
+
+        // Square
+        findViewById<Button>(R.id.btnSqr).setOnClickListener { trigonometry("sqr") }
 
         // setup for the "equals" Button
         findViewById<Button>(R.id.btnEquals).setOnClickListener {
@@ -229,7 +233,7 @@ class MainActivity : AppCompatActivity() {
             "sin" -> expression += "sin("
             "cos" -> expression += "cos("
             "tan" -> expression += "tan("
-            "ctg" -> expression += "1/tan("
+            "sqr" -> expression += "sqr("
         }
         updateDisplay(expression)
     }
@@ -249,4 +253,60 @@ class MainActivity : AppCompatActivity() {
 
         return result
     }
+
+    private fun processingSymbol(){
+        if(tvDisplay.text.toString() == "ERROR"){
+            expression = "0"
+            updateDisplay(expression)
+        }
+
+        if(expression.isEmpty() || expression == "0") return
+
+        val lastChar = expression.last()
+        when(lastChar){
+            '-' -> {
+                expression.dropLast(1)
+                expression += '+'
+            }
+            '+' -> {
+                expression.dropLast(1)
+                expression += '-'
+            }
+            '*' -> return
+            '/' -> return
+            else -> changeSymbol()
+        }
+    }
+
+    private fun changeSymbol(){
+        var currentIx = expression.lastIndex
+
+        while(currentIx >= 0){
+            if(expression[currentIx].isDigit()){
+                currentIx--
+            }
+        }
+
+        // if there is just one positive number -> get information
+        // from the "expression" and add minus at the beginning
+        if(currentIx < 0){
+            expression = "-$expression"
+        } else{
+            val currentChar = expression[currentIx]
+
+            when(currentChar){
+                // '-' -> expression = expression.substring(0, currentIx) + '+'+ expression.substring(currentIx + 1)
+                '-' -> expression = expression.replaceRange(currentIx, currentIx + 1, "+")
+                '+' -> expression = expression.replaceRange(currentIx, currentIx + 1, "-")
+                '(' -> expression = expression.replaceRange(currentIx, currentIx + 1, "(-")
+            }
+        }
+        updateDisplay(expression)
+    }
 }
+
+
+
+
+
+

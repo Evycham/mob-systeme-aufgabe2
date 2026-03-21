@@ -171,8 +171,8 @@
             style="@style/textButton"
             />
         <Button
-            android:id="@+id/btnCtg"
-            android:text="ctg"
+            android:id="@+id/btnSqr"
+            android:text="√"
             style="@style/textButton"
             />
 
