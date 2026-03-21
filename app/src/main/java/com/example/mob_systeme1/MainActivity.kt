@@ -63,10 +63,12 @@ class MainActivity : AppCompatActivity() {
         // backspace
         findViewById<Button>(R.id.btnDelete).setOnClickListener {
             if(!expression.isEmpty()){
-                expression.dropLast(1)
+                expression = expression.dropLast(1)
             }
-            // if there is no sybwols left
-            updateDisplay(if(expression.isEmpty()) "0" else expression)
+            // if there is no symbols left
+            if(expression.isEmpty()) expression = "0"
+
+            updateDisplay(expression)
         }
 
         // numbers-buttons setup
@@ -106,6 +108,14 @@ class MainActivity : AppCompatActivity() {
         // loading
         findViewById<Button>(R.id.btnMR).setOnClickListener { loadMemory() }
 
+        // symbol swapping
+        findViewById<Button>(R.id.btnChange).setOnClickListener {
+            try{
+                processingSymbol()
+            } catch(e: Exception){
+                print(e)
+            }
+        }
     }
     /**
     * Function for the calculating of the input
@@ -157,7 +167,7 @@ class MainActivity : AppCompatActivity() {
     private fun buttonNumbers(buttonId: Int, value: String){
         findViewById<Button>(buttonId).setOnClickListener {
 
-            if(tvDisplay.text.toString() == "ERROR"){
+            if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
                 expression = ""
             }
 
@@ -180,9 +190,11 @@ class MainActivity : AppCompatActivity() {
      * */
     private fun appendOperator(operator: String){
         // if we want to enter negative number
-        if(expression.isEmpty()){
+        if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
             if(operator == "-"){
                 expression += operator
+                updateDisplay(expression)
+                return
             }
         }
 
@@ -190,7 +202,7 @@ class MainActivity : AppCompatActivity() {
         val lastChar = expression.last()
 
         if(lastChar == '-' || lastChar == '+' || lastChar == '*' || lastChar == '/'){
-            expression.dropLast(1)
+            expression = expression.dropLast(1)
         }
         expression += operator
         updateDisplay(expression)
@@ -229,6 +241,10 @@ class MainActivity : AppCompatActivity() {
      * Basic setup for the buttons which respond fpr the trigonometry
      * */
     private fun trigonometry(selectedFunction: String){
+        if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
+            expression = ""
+            updateDisplay(expression)
+        }
         when (selectedFunction) {
             "sin" -> expression += "sin("
             "cos" -> expression += "cos("
@@ -255,21 +271,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun processingSymbol(){
-        if(tvDisplay.text.toString() == "ERROR"){
+        if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
             expression = "0"
             updateDisplay(expression)
+            return
         }
-
-        if(expression.isEmpty() || expression == "0") return
 
         val lastChar = expression.last()
         when(lastChar){
             '-' -> {
-                expression.dropLast(1)
+                expression = expression.dropLast(1)
                 expression += '+'
             }
             '+' -> {
-                expression.dropLast(1)
+                expression = expression.dropLast(1)
                 expression += '-'
             }
             '*' -> return
@@ -282,8 +297,10 @@ class MainActivity : AppCompatActivity() {
         var currentIx = expression.lastIndex
 
         while(currentIx >= 0){
-            if(expression[currentIx].isDigit()){
+            if(expression[currentIx].isDigit() || expression[currentIx] == '.'){
                 currentIx--
+            } else{
+                break
             }
         }
 
