@@ -185,26 +185,52 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    /**
+     * Function just for
+     * @param c - symbol
+     * @return True - if it is on of the parameters
+     * @return False - if it is not
+    */
+    private fun isOperator(c: Char): Boolean {
+        return c == '+' || c == '-' || c == '*' || c == '/'
+    }
+
+
     /**
      * Function for adding operator. The empty expression allows to put also negative numbers
+     * @param operator - operator
      * */
-    private fun appendOperator(operator: String){
-        // if we want to enter negative number
-        if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
-            if(operator == "-"){
-                expression += operator
-                updateDisplay(expression)
-                return
-            }
+    private fun appendOperator(operator: String) {
+        if (tvDisplay.text.toString() == "ERROR") {
+            expression = "0"
         }
 
-        // if last char is one of the operators - change
+        if (expression.isEmpty() || expression == "0"){
+            expression = "0$operator"
+            updateDisplay(expression)
+            return
+        }
+
+        if(
+            expression.endsWith("sin(") ||
+            expression.endsWith("cos(") ||
+            expression.endsWith("tan(") ||
+            expression.endsWith("sqr(")
+        ) {
+            expression += "0$operator"
+            updateDisplay(expression)
+            return
+        }
+
         val lastChar = expression.last()
 
-        if(lastChar == '-' || lastChar == '+' || lastChar == '*' || lastChar == '/'){
-            expression = expression.dropLast(1)
+        if(isOperator(lastChar)){
+            expression = expression.dropLast(1) + operator
+        } else{
+            expression += operator
         }
-        expression += operator
+
         updateDisplay(expression)
     }
 
