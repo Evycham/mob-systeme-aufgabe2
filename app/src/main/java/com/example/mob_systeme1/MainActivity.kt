@@ -3,6 +3,7 @@ package com.example.mob_systeme1
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
 
     /**
-     * Function to turn extra menu on
+     * Function to turn extra menu for the trigonometrical functions on
      * */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -95,6 +96,9 @@ class MainActivity : AppCompatActivity() {
 
         // cleaning
         findViewById<Button>(R.id.btnClean).setOnClickListener{
+            // animation
+            animateButton(it)
+
             expression = "0"
             lastResult = ""
             memory1 = ""
@@ -102,10 +106,18 @@ class MainActivity : AppCompatActivity() {
         }
 
         // delete last input
-        findViewById<Button>(R.id.btnCleanLast).setOnClickListener { clearLastInput() }
+        findViewById<Button>(R.id.btnCleanLast).setOnClickListener {
+            // animation
+            animateButton(it)
+
+            clearLastInput()
+        }
 
         // backspace
         findViewById<Button>(R.id.btnDelete).setOnClickListener {
+            // animation
+            animateButton(it)
+
             if(!expression.isEmpty()){
                 expression = expression.dropLast(1)
             }
@@ -129,31 +141,59 @@ class MainActivity : AppCompatActivity() {
         buttonNumbers(R.id.btnDot, ".")
 
         // setup of all buttons responding for the operators
-        findViewById<Button>(R.id.btnPlus).setOnClickListener { appendOperator("+") }
-        findViewById<Button>(R.id.btnMinus).setOnClickListener { appendOperator("-") }
-        findViewById<Button>(R.id.btnMultiply).setOnClickListener { appendOperator("*") }
-        findViewById<Button>(R.id.btnDivide).setOnClickListener { appendOperator("/") }
+        findViewById<Button>(R.id.btnPlus).setOnClickListener {
+            // animation
+            animateButton(it)
 
-        // Trigonometry
-        findViewById<Button>(R.id.btnSin).setOnClickListener { trigonometry("sin") }
-        findViewById<Button>(R.id.btnCos).setOnClickListener { trigonometry("cos") }
-        findViewById<Button>(R.id.btnTan).setOnClickListener { trigonometry("tan") }
+            appendOperator("+")
+        }
+        findViewById<Button>(R.id.btnMinus).setOnClickListener {
+            // animation
+            animateButton(it)
 
-        // Square
-        findViewById<Button>(R.id.btnSqr).setOnClickListener { trigonometry("sqr") }
+            appendOperator("-")
+        }
+        findViewById<Button>(R.id.btnMultiply).setOnClickListener {
+            // animation
+            animateButton(it)
+
+            appendOperator("*")
+        }
+        findViewById<Button>(R.id.btnDivide).setOnClickListener {
+            // animation
+            animateButton(it)
+
+            appendOperator("/")
+        }
 
         // setup for the "equals" Button
         findViewById<Button>(R.id.btnEquals).setOnClickListener {
+            // animation
+            animateButton(it)
+
             calculateResult()
         }
 
         // saving
-        findViewById<Button>(R.id.btnMS).setOnClickListener { saveMemory() }
+        findViewById<Button>(R.id.btnMS).setOnClickListener {
+            // animation
+            animateButton(it)
+
+            saveMemory()
+        }
         // loading
-        findViewById<Button>(R.id.btnMR).setOnClickListener { loadMemory() }
+        findViewById<Button>(R.id.btnMR).setOnClickListener {
+            // animation
+            animateButton(it)
+
+            loadMemory()
+        }
 
         // symbol swapping
         findViewById<Button>(R.id.btnChange).setOnClickListener {
+            // animation
+            animateButton(it)
+
             try{
                 processingSymbol()
             } catch(e: Exception){
@@ -210,6 +250,8 @@ class MainActivity : AppCompatActivity() {
      * */
     private fun buttonNumbers(buttonId: Int, value: String){
         findViewById<Button>(buttonId).setOnClickListener {
+            // animation
+            animateButton(it)
 
             if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
                 expression = ""
@@ -480,6 +522,28 @@ class MainActivity : AppCompatActivity() {
             expression.endsWith("tan(") ||
             expression.endsWith("sqr(")
             )
+    }
+
+    /*
+     * BONUS Tasks
+     */
+
+    /**
+     * Animation for the buttons
+     * @param - button id
+     * */
+    private fun animateButton(view: View) {
+        view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
+        view.animate()
+            .scaleX(0.9f)
+            .scaleY(0.9f)
+            .setDuration(100)
+            .withEndAction {
+                view.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(100)
+            }
     }
 
 }

@@ -18,15 +18,13 @@
         android:textSize="30sp"
         android:textColor="#FFFFFF"
         android:padding="16dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/border" />
-
-<!--    android:layout_marginBottom="50dp"-->
-
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:columnCount="4"
         android:rowCount="5"
         android:useDefaultMargins="true"
@@ -57,9 +55,9 @@
             />
 
         <Button
-            android:id="@+id/btnDelete"
-            android:text="⌫"
-            style="@style/clacButton"
+            android:id="@+id/btnCleanLast"
+            android:text="CE"
+            style="@style/textButton"
             />
 
         <Button
@@ -157,26 +155,6 @@
             android:text="+"
             style="@style/clacButton"
             />
-        <Button
-            android:id="@+id/btnSin"
-            android:text="sin"
-            style="@style/textButton"
-            />
-        <Button
-            android:id="@+id/btnCos"
-            android:text="cos"
-            style="@style/textButton"
-            />
-        <Button
-            android:id="@+id/btnTan"
-            android:text="tan"
-            style="@style/textButton"
-            />
-        <Button
-            android:id="@+id/btnSqr"
-            android:text="√"
-            style="@style/textButton"
-            />
 
         <Button
             android:id="@+id/btnChange"
@@ -185,9 +163,9 @@
             />
 
         <Button
-            android:id="@+id/btnCleanLast"
-            android:text="CE"
-            style="@style/textButton"
+            android:id="@+id/btnDelete"
+            android:text="⌫"
+            style="@style/clacButton"
             />
 
     </GridLayout>
