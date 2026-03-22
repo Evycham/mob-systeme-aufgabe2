@@ -184,6 +184,12 @@
             style="@style/textButton"
             />
 
+        <Button
+            android:id="@+id/btnCleanLast"
+            android:text="CE"
+            style="@style/textButton"
+            />
+
 
 
 

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import net.objecthunter.exp4j.ExpressionBuilder
 import kotlin.math.exp
 
-
 // TODO: in ReadMe has to be said that trigonometrical functions work only with radiant and not with grads
 
 /**
@@ -176,13 +175,57 @@ class MainActivity : AppCompatActivity() {
                 lastResult = ""
             }
 
-            if(value == "." && expression.last() == '.'){
-                return@setOnClickListener
+
+            // special cases for the "."
+            if(value == ".") {
+
+                // empty -> 0.
+                if(expression.isEmpty()){
+                    expression = "0."
+                    updateDisplay(expression)
+                    return@setOnClickListener
+                }
+
+                val lastChar = expression.last()
+
+                // after operator or after "(" -> 0.
+                if(isOperator(lastChar) || lastChar == '('){
+                    expression += "0."
+                    updateDisplay(expression)
+                    return@setOnClickListener
+                }
+
+                // if the number contains one "."
+                if(currentNumberHasDot()){
+                    return@setOnClickListener
+                }
+
+                if(expression.last() == '.'){
+                    return@setOnClickListener
+                }
             }
 
             expression += value
             updateDisplay(expression)
         }
+    }
+
+    /**
+     * Help function to analyze the last number whether it contains a "."
+     * */
+    private fun currentNumberHasDot(): Boolean {
+        var ix = expression.lastIndex
+
+        while (ix >= 0) {
+            val c = expression[ix]
+
+            if (c == '.') return true
+            if (isOperator(c) || c == '(') break
+
+            ix--
+        }
+
+        return false
     }
 
 
@@ -238,11 +281,12 @@ class MainActivity : AppCompatActivity() {
      * Function for saving of the result or just current expression
      * */
     private fun saveMemory(){
-        if(!expression.isEmpty() || tvDisplay.text.toString() != "ERROR"){
+        if(expression.isNotEmpty() && tvDisplay.text.toString() != "ERROR"){
             memory1 = tvDisplay.text.toString()
             Toast.makeText(this, "Your result was successfully saved!", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "There is nothing to save!", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "There is nothing to save!", Toast.LENGTH_SHORT).show()
     }
 
     /**
@@ -296,6 +340,9 @@ class MainActivity : AppCompatActivity() {
         return result
     }
 
+    /**
+     * Function for swapping the operator
+     * */
     private fun processingSymbol(){
         if(tvDisplay.text.toString() == "ERROR" || tvDisplay.text.toString() == "0"){
             expression = "0"
@@ -319,6 +366,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    /**
+     * Function for swapping the operator
+     * */
     private fun changeSymbol(){
         var currentIx = expression.lastIndex
 
@@ -346,6 +397,9 @@ class MainActivity : AppCompatActivity() {
         }
         updateDisplay(expression)
     }
+
+
+
 }
 
 
