@@ -396,6 +396,9 @@ class MainActivity : AppCompatActivity() {
         updateDisplay(expression)
     }
 
+    /**
+     * Function for the button "CE" - clean last input
+     * */
     private fun clearLastInput(){
         if(tvDisplay.text.toString() == "ERROR" || expression.isEmpty() || expression == "0"){
             expression = "0"
@@ -424,6 +427,11 @@ class MainActivity : AppCompatActivity() {
         updateDisplay(expression)
     }
 
+    /**
+     * Function which says if the expression contains trigonometrical function at the end
+     * @return false - if no
+     * @return true - if yes
+     * */
     private fun isTrigonometry(): Boolean{
         return (expression.endsWith("sin(") ||
             expression.endsWith("cos(") ||
