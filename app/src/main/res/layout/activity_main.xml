@@ -190,9 +190,5 @@
             style="@style/textButton"
             />
 
-
-
-
-
     </GridLayout>
 </LinearLayout>

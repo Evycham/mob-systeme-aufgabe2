@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="Extra. Functions">
+
+        <menu>
+            <item
+                android:id="@+id/menu_sin"
+                android:title="Sinus" />
+
+            <item
+                android:id="@+id/menu_cos"
+                android:title="Cosinus" />
+
+            <item
+                android:id="@+id/menu_tan"
+                android:title="Tangens" />
+
+            <item
+                android:id="@+id/menu_sqr"
+                android:title="Square" />
+        </menu>
+
+    </item>
+
+</menu>

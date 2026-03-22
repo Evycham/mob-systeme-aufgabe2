@@ -1,6 +1,8 @@
 package com.example.mob_systeme1
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +36,46 @@ class MainActivity : AppCompatActivity() {
     private var lastResult = ""
     // memory
     private var memory1 = ""
+
+
+    /**
+     * Function to turn extra menu on
+     * */
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    /**
+     * Function to react on the chosen option in menu
+     * @param item - operation
+     * @return - means that we successfully finished one event and can leave the function
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.menu_sin -> {
+                trigonometry("sin")
+                return true
+            }
+
+            R.id.menu_cos -> {
+                trigonometry("cos")
+                return true
+            }
+
+            R.id.menu_tan -> {
+                trigonometry("tan")
+                return true
+            }
+
+            R.id.menu_sqr -> {
+                trigonometry("sqr")
+                return true
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
