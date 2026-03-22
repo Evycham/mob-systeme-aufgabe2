@@ -53,7 +53,7 @@
         <Button
             android:id="@+id/btnClean"
             android:text="C"
-            style="@style/clacButton"
+            style="@style/textButton"
             />
 
         <Button

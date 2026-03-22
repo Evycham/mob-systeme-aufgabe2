@@ -59,6 +59,9 @@ class MainActivity : AppCompatActivity() {
             updateDisplay(expression)
         }
 
+        // delete last input
+        findViewById<Button>(R.id.btnCleanLast).setOnClickListener { clearLastInput() }
+
         // backspace
         findViewById<Button>(R.id.btnDelete).setOnClickListener {
             if(!expression.isEmpty()){
@@ -255,12 +258,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        if(
-            expression.endsWith("sin(") ||
-            expression.endsWith("cos(") ||
-            expression.endsWith("tan(") ||
-            expression.endsWith("sqr(")
-        ) {
+        if(isTrigonometry()) {
             expression += "0$operator"
             updateDisplay(expression)
             return
@@ -398,7 +396,41 @@ class MainActivity : AppCompatActivity() {
         updateDisplay(expression)
     }
 
+    private fun clearLastInput(){
+        if(tvDisplay.text.toString() == "ERROR" || expression.isEmpty() || expression == "0"){
+            expression = "0"
+            updateDisplay(expression)
+            return
+        }
 
+        if(isOperator(expression.last())){
+            expression = expression.dropLast(1)
+        } else if(isTrigonometry()){
+            expression = expression.dropLast(4)
+        } else{
+            var currentIx = expression.lastIndex
+
+            while(currentIx >= 0 && (expression[currentIx].isDigit() || expression[currentIx] == '.')){
+                currentIx--
+            }
+
+            expression = expression.substring(0, currentIx + 1)
+        }
+
+        if(expression.isEmpty()){
+            expression = "0"
+        }
+
+        updateDisplay(expression)
+    }
+
+    private fun isTrigonometry(): Boolean{
+        return (expression.endsWith("sin(") ||
+            expression.endsWith("cos(") ||
+            expression.endsWith("tan(") ||
+            expression.endsWith("sqr(")
+            )
+    }
 
 }
 
