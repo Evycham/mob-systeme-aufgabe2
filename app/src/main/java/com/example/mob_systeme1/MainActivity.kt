@@ -545,11 +545,4 @@ class MainActivity : AppCompatActivity() {
                     .setDuration(100)
             }
     }
-
 }
-
-
-
-
-
-
