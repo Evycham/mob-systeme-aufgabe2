@@ -2,6 +2,7 @@ package com.example.mob_systeme2.data
 
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
+import java.util.UUID
 import kotlin.comparisons.nullsLast
 
 
@@ -38,7 +39,7 @@ object TodoRepo {
         if(priority !in 1..3) return "Priority is invalid!"
         if(category.isBlank()) return "Todo must have Category!"
 
-        val id = todos.size + 1
+        val id = UUID.randomUUID().toString()
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
 
         todos.add(todo)
@@ -55,11 +56,11 @@ object TodoRepo {
      * @return null if the task was successful removed
      * @return String if there is no task with such id
      * */
-    fun removeTodo(id: Int): String?{
+    fun removeTodo(id: String): String?{
         // gehen ganzes todos-List durch und wenn id gleich zu gesuchten ist, dann löschen
         val removed = todos.removeIf { it.id == id }
 
-        return if(removed) null else return "There is no such a Todo!"
+        return if(removed) null else "There is no such a Todo!"
     }
 
 
@@ -71,7 +72,7 @@ object TodoRepo {
      * @return todo - successful
      * @return null - did not find
      * */
-    fun findTodo(id: Int): Todo?{
+    fun findTodo(id: String): Todo?{
         return todos.find { it.id == id }
     }
 
@@ -80,7 +81,7 @@ object TodoRepo {
      *
      * */
     fun editTodo(
-        id: Int,
+        id: String,
         newTitle: String,
         newDescription: String,
         newPriority: Int,
