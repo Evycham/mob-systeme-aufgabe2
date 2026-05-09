@@ -1,5 +1,7 @@
 package com.example.mob_systeme2.model
 
+import java.time.LocalDate
+
 data class Todo (
     val id: Int,
     var title: String,
@@ -7,5 +9,5 @@ data class Todo (
     var priority: Int,
     var category: String,
     var done: Boolean,
-    var dueDate: String
+    var dueDate: LocalDate?
 )

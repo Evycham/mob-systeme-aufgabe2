@@ -1,7 +1,8 @@
 package com.example.mob_systeme2.data
 
 import com.example.mob_systeme2.model.Todo
-import java.util.UUID
+import java.time.LocalDate
+import kotlin.comparisons.nullsLast
 
 
 /**
@@ -10,6 +11,9 @@ import java.util.UUID
 object TodoRepo {
     val todos = mutableListOf<Todo>()
 
+    var countDeadline = 0
+    var countPriority = 0
+    var countId = 0
 
     /**
      * Funktion to create a task
@@ -28,7 +32,7 @@ object TodoRepo {
         description: String,
         priority: Int,
         category: String,
-        dueDate: String
+        dueDate: LocalDate?
     ): String?{
         if(title.isBlank()) return "Titel can not be empty!"
         if(priority !in 1..3) return "Priority is invalid!"
@@ -81,7 +85,7 @@ object TodoRepo {
         newDescription: String,
         newPriority: Int,
         newCategory: String,
-        newDueDate: String
+        newDueDate: LocalDate?
     ): String?{
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
@@ -100,5 +104,38 @@ object TodoRepo {
     }
 
 
+    fun sortTodo(type: String){
+        when (type) {
+            "byPriority" -> sortPriority()
+            "byDeadline" -> sortDeadline()
+            "byId" -> sortId()
+        }
+    }
 
+    fun sortPriority(){
+        if(countPriority % 2 == 0){
+            todos.sortBy { it.priority }
+        } else{
+            todos.sortByDescending { it.priority }
+        }
+        countPriority++
+    }
+
+    fun sortDeadline(){
+        if(countDeadline % 2 == 0){
+            todos.sortWith(compareBy(nullsLast()) { it.dueDate })
+        } else{
+            todos.sortWith(compareBy(nullsFirst(reverseOrder())) {it.dueDate})
+        }
+        countDeadline++
+    }
+
+    fun sortId(){
+        if(countId % 2 == 0){
+            todos.sortBy { it.id }
+        } else{
+            todos.sortByDescending { it.id }
+        }
+        countId++
+    }
 }
