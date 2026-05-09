@@ -30,9 +30,9 @@ object TodoRepo {
         category: String,
         dueDate: String
     ): String?{
-        if(title.isBlank()) return "Titel darf nicht leer sein"
-        if(priority !in 1..3) return "Priority is invalid"
-        if(category.isBlank()) return "Todo must have Category"
+        if(title.isBlank()) return "Titel can not be empty!"
+        if(priority !in 1..3) return "Priority is invalid!"
+        if(category.isBlank()) return "Todo must have Category!"
 
         val id = todos.size + 1
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
@@ -41,6 +41,7 @@ object TodoRepo {
 
         return null
     }
+
 
     /**
      * Funktion to remove a task
@@ -57,6 +58,7 @@ object TodoRepo {
         return if(removed) null else return "There is no such a Todo!"
     }
 
+
     /**
      * Find task with id
      *
@@ -70,6 +72,9 @@ object TodoRepo {
     }
 
 
+    /**
+     *
+     * */
     fun editTodo(
         id: Int,
         newTitle: String,
@@ -79,19 +84,21 @@ object TodoRepo {
         newDueDate: String
     ): String?{
 
-        val todo: Todo = findTodo(id) ?: return "Something is wrong"
+        val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
 
-        if(newTitle.isBlank()) return "Titel darf nicht leer sein"
-        if(newPriority !in 1..3) return "Priority is invalid"
-        if(newCategory.isBlank()) return "Todo must have Category"
+        if(newTitle.isBlank()) return "Titel can not be empty!"
+        if(newPriority !in 1..3) return "Priority is invalid!"
+        if(newCategory.isBlank()) return "Todo must have Category!"
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
         if(newPriority != todo.priority) todo.priority = newPriority
         if(newCategory != todo.category) todo.category = newCategory
-
-
+        if(newDueDate != todo.dueDate) todo.dueDate = newDueDate
 
         return null
     }
+
+
+
 }
