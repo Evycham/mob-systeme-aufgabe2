@@ -14,6 +14,8 @@ import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import android.app.DatePickerDialog
+import android.view.View
+import androidx.compose.runtime.produceState
 
 
 class DetailsActivity : AppCompatActivity() {
@@ -52,7 +54,7 @@ class DetailsActivity : AppCompatActivity() {
         }
 
 
-
+        configureScreen(todo)
         deleteButton.setOnClickListener { deleteTodo() }
         saveButton.setOnClickListener { saveTodo(todo) }
         dueDateInput.setOnClickListener { openDataPicker() }
@@ -116,8 +118,6 @@ class DetailsActivity : AppCompatActivity() {
      * */
     private fun saveTodo(existingTodo: Todo?){
 
-        val id = todoId?: return
-
         val priority = priorityInput.text.toString().trim().toIntOrNull()
         if(priority == null){
             showMessage("Priority must be a number!")
@@ -170,5 +170,26 @@ class DetailsActivity : AppCompatActivity() {
             initialDate.monthValue - 1,
             initialDate.dayOfMonth
         ).show()
+    }
+
+    /**
+     * Function to configure users screen
+     * @param todo - to be sure that we edit, otherwise create new
+     * */
+    private fun configureScreen(todo: Todo?){
+        if(todo == null){
+            headlineView.text = "New ToDo"
+            doneCheckBox.visibility = View.GONE
+            deleteButton.visibility = View.GONE
+            return
+        }
+
+        headlineView.text = "ToDo Editing"
+        titleInput.setText(todo.title)
+        descriptionInput.setText(todo.description)
+        categoryInput.setText(todo.description)
+        priorityInput.setText(todo.priority.toString())
+        dueDateInput.setText(todo.dueDate?.toString().orEmpty())
+        doneCheckBox.isChecked = todo.done
     }
 }
