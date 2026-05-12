@@ -56,7 +56,7 @@ object TodoRepo {
      * @return null if the task was successful removed
      * @return String if there is no task with such id
      * */
-    fun removeTodo(id: String): String?{
+    fun deleteTodo(id: String): String?{
         // gehen ganzes todos-List durch und wenn id gleich zu gesuchten ist, dann löschen
         val removed = todos.removeIf { it.id == id }
 
