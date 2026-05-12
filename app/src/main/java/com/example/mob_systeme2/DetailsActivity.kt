@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
+import android.app.DatePickerDialog
 
 
 class DetailsActivity : AppCompatActivity() {
@@ -53,7 +54,8 @@ class DetailsActivity : AppCompatActivity() {
 
 
         deleteButton.setOnClickListener { deleteTodo() }
-        saveButton.setOnClickListener { saveTodo() }
+        saveButton.setOnClickListener { saveTodo(todo) }
+        dueDateInput.setOnClickListener { openDataPicker() }
     }
 
 
@@ -145,5 +147,28 @@ class DetailsActivity : AppCompatActivity() {
         }
         showMessage(status)
         finish()
+    }
+
+
+    /**
+     * Function for initiation of the date-picker menu.
+     * */
+    private fun openDataPicker(){
+        // Start-wert für das Menu holen: if date existiert -> parsen, falls nein -> heutige nehmen
+        val initialDate = dueDateInput.text.toString()
+            .takeIf{ it.isNotBlank() }
+            ?.let(LocalDate::parse)
+            ?: LocalDate.now()
+
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                val selectedDate = LocalDate.of(year, month + 1, day)
+                dueDateInput.setText(selectedDate.toString())
+            },
+            initialDate.year,
+            initialDate.monthValue - 1,
+            initialDate.dayOfMonth
+        ).show()
     }
 }
