@@ -51,6 +51,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
         deleteButton.setOnClickListener { deleteTodo() }
+        saveButton.setOnClickListener { saveTodo() }
     }
 
 
@@ -104,4 +105,23 @@ class DetailsActivity : AppCompatActivity() {
         finish()
     }
 
+
+    private fun saveTodo(){
+
+        val id = todoId?: return
+        val priority = priorityInput.text.toString().trim().toIntOrNull()
+
+        if(priority == null){
+            showMessage("Priority muss ein Zahl sein!")
+            return
+        }
+
+        val title = titleInput.text.toString()
+
+
+        if(todoId != null){
+        }
+
+
+    }
 }
