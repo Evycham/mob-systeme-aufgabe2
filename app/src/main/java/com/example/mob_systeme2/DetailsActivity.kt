@@ -15,7 +15,6 @@ import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import android.app.DatePickerDialog
 import android.view.View
-import androidx.compose.runtime.produceState
 
 
 class DetailsActivity : AppCompatActivity() {
@@ -187,7 +186,7 @@ class DetailsActivity : AppCompatActivity() {
         headlineView.text = "ToDo Editing"
         titleInput.setText(todo.title)
         descriptionInput.setText(todo.description)
-        categoryInput.setText(todo.description)
+        categoryInput.setText(todo.category)
         priorityInput.setText(todo.priority.toString())
         dueDateInput.setText(todo.dueDate?.toString().orEmpty())
         doneCheckBox.isChecked = todo.done
