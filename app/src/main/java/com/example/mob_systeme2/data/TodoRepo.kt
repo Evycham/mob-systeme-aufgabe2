@@ -114,7 +114,12 @@ object TodoRepo {
         return "Successful saved!"
     }
 
-
+/**
+ * Function for the sorting of todos.
+ * @param type : byPriority
+ * @param type : byDeadline
+ * @param type: byID
+ * */
     fun sortTodo(type: String){
         when (type) {
             "byPriority" -> sortPriority()

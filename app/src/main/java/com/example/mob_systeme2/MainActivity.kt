@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 
 
@@ -28,6 +29,11 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
 
         bindViews()
+
+        createButton.setOnClickListener { createTodo() }
+        prioritySortButton.setOnClickListener { TodoRepo.sortTodo("byPriority") }
+        deadlineSortButton.setOnClickListener { TodoRepo.sortTodo("byDeadline") }
+        idSortButton.setOnClickListener { TodoRepo.sortTodo("byId") }
     }
 
 
@@ -45,9 +51,14 @@ class MainActivity : ComponentActivity() {
         createButton = findViewById(R.id.btnAddTodo)
     }
 
-    private fun createTodo(todo: Todo?){
+    private fun createTodo(){
         val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(DetailsActivity.EXTRA_TODO_ID, todoId)
+        startActivity(intent)
+    }
+
+    private fun editTodo(todo: Todo){
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.EXTRA_TODO_ID, todo.id)
         startActivity(intent)
     }
 
