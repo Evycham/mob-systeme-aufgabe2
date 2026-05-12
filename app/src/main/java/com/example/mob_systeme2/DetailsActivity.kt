@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.mob_systeme2.data.TodoRepo
+import com.example.mob_systeme2.model.Todo
+import java.time.LocalDate
 
 
 class DetailsActivity : AppCompatActivity() {
@@ -106,22 +108,42 @@ class DetailsActivity : AppCompatActivity() {
     }
 
 
-    private fun saveTodo(){
+    /**
+     * Function to creating or editing of todos
+     * @param existingTodo - to prove if the todo already exists, if not create, otherwise edit
+     * */
+    private fun saveTodo(existingTodo: Todo?){
 
         val id = todoId?: return
-        val priority = priorityInput.text.toString().trim().toIntOrNull()
 
+        val priority = priorityInput.text.toString().trim().toIntOrNull()
         if(priority == null){
-            showMessage("Priority muss ein Zahl sein!")
+            showMessage("Priority must be a number!")
             return
         }
 
-        val title = titleInput.text.toString()
+        val dueDateText = dueDateInput.text.toString().trim()
+        val dueDate = if(dueDateText.isEmpty()) null else LocalDate.parse(dueDateText)
 
+        val title = titleInput.text.toString().trim()
+        val description = descriptionInput.text.toString().trim()
+        val category = categoryInput.text.toString().trim()
+        val isDone = doneCheckBox.isChecked
 
-        if(todoId != null){
+        val status = if (existingTodo == null){
+            TodoRepo.createTodo(title, description, priority, category, dueDate)
+        } else{
+            TodoRepo.editTodo(
+                existingTodo.id,
+                title,
+                description,
+                priority,
+                category,
+                isDone,
+                dueDate
+            )
         }
-
-
+        showMessage(status)
+        finish()
     }
 }
