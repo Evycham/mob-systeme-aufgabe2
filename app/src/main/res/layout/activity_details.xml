@@ -31,8 +31,7 @@
                 android:text="@string/details_headline"
                 android:textColor="@android:color/black"
                 android:textSize="28sp"
-                android:textStyle="bold"
-                android:layout_marginTop="30dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvDetailsSubtitle"
@@ -64,7 +63,8 @@
                 android:hint="@string/details_description_hint"
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="12dp"
-                android:scrollbars="vertical" />
+                android:scrollbars="vertical"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/etCategory"

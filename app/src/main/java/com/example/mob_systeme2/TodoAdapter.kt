@@ -56,12 +56,11 @@ class TodoAdapter(
 
         if(todo.done) {
             holder.statusView.text = "Done"
-            holder.statusView.setTextColor(Color.parseColor("#2E7D32"))
+            holder.statusView.setTextColor(Color.parseColor("#C62828"))
         } else{
             holder.statusView.text = "Open"
-            holder.statusView.setTextColor(Color.parseColor("#C62828"))
+            holder.statusView.setTextColor(Color.parseColor("#2E7D32"))
         }
-
         holder.itemView.setOnClickListener {
             onTodoClick(todo)
         }
