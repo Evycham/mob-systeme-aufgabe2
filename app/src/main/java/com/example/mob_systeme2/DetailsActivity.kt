@@ -124,7 +124,16 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         val dueDateText = dueDateInput.text.toString().trim()
-        val dueDate = if(dueDateText.isEmpty()) null else LocalDate.parse(dueDateText)
+        val dueDate = if (dueDateText.isEmpty()) {
+            null
+        } else {
+            val parsedDate = LocalDate.parse(dueDateText)
+            if (parsedDate.isBefore(LocalDate.now())) {
+                showMessage("Deadline can not be earlier than today!")
+                return
+            }
+            parsedDate
+        }
 
         val title = titleInput.text.toString().trim()
         val description = descriptionInput.text.toString().trim()

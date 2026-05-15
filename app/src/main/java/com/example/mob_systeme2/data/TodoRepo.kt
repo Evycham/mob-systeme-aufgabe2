@@ -37,7 +37,6 @@ object TodoRepo {
     ): String?{
         if(title.isBlank()) return "Title can not be empty!"
         if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        if(category.isBlank()) return "Todo must have Category!"
 
         val id = UUID.randomUUID().toString()
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
