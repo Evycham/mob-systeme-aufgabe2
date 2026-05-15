@@ -17,7 +17,7 @@ object TodoRepo {
     var countId = 0
 
     /**
-     * Funktion to create a task
+     * Function to create a task
      *
      * @param title - title can not be empty
      * @param description - description
@@ -35,7 +35,7 @@ object TodoRepo {
         category: String,
         dueDate: LocalDate?
     ): String{
-        if(title.isBlank()) return "Titel can not be empty!"
+        if(title.isBlank()) return "Title can not be empty!"
         if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
         if(category.isBlank()) return "Todo must have Category!"
 
@@ -49,7 +49,7 @@ object TodoRepo {
 
 
     /**
-     * Funktion to remove a task
+     * Function to remove a task
      *
      * @param id - id of the task
      *
@@ -100,7 +100,7 @@ object TodoRepo {
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
 
-        if(newTitle.isBlank()) return "Titel can not be empty!"
+        if(newTitle.isBlank()) return "Title can not be empty!"
         if(newPriority !in 1..3) return "Priority has to be in the range from 1 to 3!"
         if(newCategory.isBlank()) return "Todo must have Category!"
 

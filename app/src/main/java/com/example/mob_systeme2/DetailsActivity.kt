@@ -87,7 +87,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
     /**
-     * This obj musst be classified but also should exist earlier than this class
+     * This obj must be classified but also should exist earlier than this class
      * */
     companion object{
         const val EXTRA_TODO_ID = "todo_id"
