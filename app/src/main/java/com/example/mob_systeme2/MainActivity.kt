@@ -91,4 +91,8 @@ class MainActivity : ComponentActivity() {
         emptyState.visibility = if(TodoRepo.todos.isEmpty()) View.VISIBLE else View.GONE
     }
 
+    override fun onResume() {
+        super.onResume()
+        renderTodos()
+    }
 }
