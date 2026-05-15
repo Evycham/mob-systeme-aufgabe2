@@ -69,7 +69,7 @@ object TodoRepo {
      *
      * @param id - id
      *
-     * @return todo - successful
+     * @return task - successful
      * @return null - did not find
      * */
     fun findTodo(id: String): Todo?{
@@ -78,8 +78,8 @@ object TodoRepo {
 
 
     /**
-     * Function to edit the existed todo
-     * @param id - id from the todo which has to be changed
+     * Function to edit the existed task
+     * @param id - id from the task which has to be changed
      * @param newTitle - new title
      * @param newDescription - new description
      * @param newPriority - new priority

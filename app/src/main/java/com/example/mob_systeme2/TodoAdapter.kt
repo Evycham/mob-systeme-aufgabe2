@@ -1,5 +1,6 @@
 package com.example.mob_systeme2;
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View;
 import android.view.ViewGroup
@@ -48,10 +49,29 @@ class TodoAdapter(
 
         holder.titleView.text = todo.title
         holder.descriptionView.text = todo.description.ifBlank { "No description" }
-        holder.priorityView.text = todo.category
+        holder.categoryView.text = todo.category.ifBlank { "No category" }
+        holder.priorityView.text = "Priority: ${todo.priority}"
+        // Wenn dueDate nicht null ist, wandle zu String um; sonst "without"
+        holder.deadlineView.text = "Deadline: ${todo.dueDate?.toString() ?: "without"}"
+
+        if(todo.done) {
+            holder.statusView.text = "Done"
+            holder.statusView.setTextColor(Color.parseColor("#2E7D32"))
+        } else{
+            holder.statusView.text = "Open"
+            holder.statusView.setTextColor(Color.parseColor("#C62828"))
+        }
+
+        holder.itemView.setOnClickListener {
+            onTodoClick(todo)
+        }
     }
 
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+    override fun getItemCount(): Int = todoList.size
+
+    fun updateTodos(newTodos: List<Todo>){
+        todoList = newTodos
+        notifyDataSetChanged()
     }
+
 }

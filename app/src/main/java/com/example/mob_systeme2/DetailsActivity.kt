@@ -1,6 +1,5 @@
 package com.example.mob_systeme2
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -95,7 +94,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     /**
-     * Function to delete the chosen Todo
+     * Function to delete the chosen task
      * */
     private fun deleteTodo(){
 
@@ -114,7 +113,7 @@ class DetailsActivity : AppCompatActivity() {
 
     /**
      * Function to creating or editing of todos
-     * @param existingTodo - to prove if the todo already exists, if not create, otherwise edit
+     * @param existingTodo - to prove if the task already exists, if not create, otherwise edit
      * */
     private fun saveTodo(existingTodo: Todo?){
 
@@ -176,10 +175,10 @@ class DetailsActivity : AppCompatActivity() {
 
     /**
      * Function to configure users screen
-     * @param todo - to ensure that we edit, otherwise create new
+     * @param task - to ensure that we edit, otherwise create new
      * */
-    private fun configureScreen(todo: Todo?){
-        if(todo == null){
+    private fun configureScreen(task: Todo?){
+        if(task == null){
             headlineView.text = "New ToDo"
             doneCheckBox.visibility = View.GONE
             deleteButton.visibility = View.GONE
@@ -187,11 +186,11 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         headlineView.text = "ToDo Editing"
-        titleInput.setText(todo.title)
-        descriptionInput.setText(todo.description)
-        categoryInput.setText(todo.category)
-        priorityInput.setText(todo.priority.toString())
-        dueDateInput.setText(todo.dueDate?.toString().orEmpty())
-        doneCheckBox.isChecked = todo.done
+        titleInput.setText(task.title)
+        descriptionInput.setText(task.description)
+        categoryInput.setText(task.category)
+        priorityInput.setText(task.priority.toString())
+        dueDateInput.setText(task.dueDate?.toString().orEmpty())
+        doneCheckBox.isChecked = task.done
     }
 }
