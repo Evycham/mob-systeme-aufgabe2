@@ -1,5 +1,6 @@
 package com.example.mob_systeme2
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.CheckBox
@@ -47,7 +48,7 @@ class DetailsActivity : AppCompatActivity() {
         val todo = todoId?.let { TodoRepo.findTodo(it) }
 
         if(todoId != null && todo == null){
-            showMessage("Todo was not finde.")
+            showMessage("Todo was not find.")
             finish()
             return
         }
@@ -159,12 +160,14 @@ class DetailsActivity : AppCompatActivity() {
             ?.let(LocalDate::parse)
             ?: LocalDate.now()
 
+        // Datum holen
         DatePickerDialog(
             this,
             { _, year, month, day ->
                 val selectedDate = LocalDate.of(year, month + 1, day)
                 dueDateInput.setText(selectedDate.toString())
             },
+            // Ersetzen
             initialDate.year,
             initialDate.monthValue - 1,
             initialDate.dayOfMonth
@@ -173,7 +176,7 @@ class DetailsActivity : AppCompatActivity() {
 
     /**
      * Function to configure users screen
-     * @param todo - to be sure that we edit, otherwise create new
+     * @param todo - to ensure that we edit, otherwise create new
      * */
     private fun configureScreen(todo: Todo?){
         if(todo == null){

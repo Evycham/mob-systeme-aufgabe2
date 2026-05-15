@@ -102,7 +102,6 @@ object TodoRepo {
 
         if(newTitle.isBlank()) return "Title can not be empty!"
         if(newPriority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        if(newCategory.isBlank()) return "Todo must have Category!"
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
