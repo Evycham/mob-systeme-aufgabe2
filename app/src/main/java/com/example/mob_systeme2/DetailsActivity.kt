@@ -94,7 +94,7 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     /**
-     * Function to delete the chosen task
+     * Function to delete the chosen taskEXTRA_TODO_ID
      * */
     private fun deleteTodo(){
 

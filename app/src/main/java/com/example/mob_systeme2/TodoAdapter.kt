@@ -71,6 +71,7 @@ class TodoAdapter(
 
     fun updateTodos(newTodos: List<Todo>){
         todoList = newTodos
+        // RecyclerView aktualisiert Bildschirm.
         notifyDataSetChanged()
     }
 
