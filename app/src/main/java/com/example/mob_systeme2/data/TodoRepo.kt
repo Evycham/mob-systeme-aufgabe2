@@ -34,7 +34,7 @@ object TodoRepo {
         priority: Int,
         category: String,
         dueDate: LocalDate?
-    ): String{
+    ): String?{
         if(title.isBlank()) return "Title can not be empty!"
         if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
         if(category.isBlank()) return "Todo must have Category!"
@@ -44,7 +44,7 @@ object TodoRepo {
 
         todos.add(todo)
 
-        return "Todo was successful created!"
+        return null
     }
 
 
@@ -86,7 +86,8 @@ object TodoRepo {
      * @param newCategory - new category
      * @param newDueDate - new deadline
      *
-     * @return String - state successful / something is wrong
+     * @return null - successful
+     * @return String - something is wrong
      * */
     fun editTodo(
         id: String,
@@ -96,12 +97,13 @@ object TodoRepo {
         newCategory: String,
         isDone: Boolean,
         newDueDate: LocalDate?
-    ): String{
+    ): String?{
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
 
         if(newTitle.isBlank()) return "Title can not be empty!"
         if(newPriority !in 1..3) return "Priority has to be in the range from 1 to 3!"
+        if(newCategory.isBlank()) return "Todo must have Category!"
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
@@ -110,7 +112,7 @@ object TodoRepo {
         if(newDueDate != todo.dueDate) todo.dueDate = newDueDate
         if(isDone != todo.done) todo.done = isDone
 
-        return "Successful saved!"
+        return null
     }
 
 /**

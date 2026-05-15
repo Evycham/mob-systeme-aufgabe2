@@ -131,7 +131,7 @@ class DetailsActivity : AppCompatActivity() {
         val category = categoryInput.text.toString().trim()
         val isDone = doneCheckBox.isChecked
 
-        val status = if (existingTodo == null){
+        val errorMessage = if (existingTodo == null){
             TodoRepo.createTodo(title, description, priority, category, dueDate)
         } else{
             TodoRepo.editTodo(
@@ -144,7 +144,13 @@ class DetailsActivity : AppCompatActivity() {
                 dueDate
             )
         }
-        showMessage(status)
+
+        if (errorMessage != null) {
+            showMessage(errorMessage)
+            return
+        }
+
+        showMessage(if (existingTodo == null) "Todo was successful created!" else "Successful saved!")
         finish()
     }
 

@@ -64,7 +64,7 @@
                 android:hint="@string/details_description_hint"
                 android:inputType="textCapSentences|textMultiLine"
                 android:minHeight="120dp"
-                android:paddingVertical="12dp"
+                android:paddingVertical="25dp"
                 android:scrollbars="vertical"/>
 
             <EditText
