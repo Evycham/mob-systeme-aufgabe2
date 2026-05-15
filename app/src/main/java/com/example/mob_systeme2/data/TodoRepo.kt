@@ -35,8 +35,8 @@ object TodoRepo {
         category: String,
         dueDate: LocalDate?
     ): String?{
-        if(title.isBlank()) return "Title can not be empty!"
-        if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
+
+        check(title, priority)
 
         val id = UUID.randomUUID().toString()
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
@@ -100,9 +100,7 @@ object TodoRepo {
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
 
-        if(newTitle.isBlank()) return "Title can not be empty!"
-        if(newPriority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        if(newCategory.isBlank()) return "Todo must have Category!"
+        check(newTitle, newPriority)
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
@@ -153,5 +151,11 @@ object TodoRepo {
             todos.sortByDescending { it.id }
         }
         countId++
+    }
+
+    fun check(title: String, priority: Int): String?{
+        if(title.isBlank()) return "Title can not be empty!"
+        if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
+        return null
     }
 }

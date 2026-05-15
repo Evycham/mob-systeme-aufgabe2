@@ -31,7 +31,8 @@
                 android:text="@string/details_headline"
                 android:textColor="@android:color/black"
                 android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"/>
 
             <TextView
                 android:id="@+id/tvDetailsSubtitle"
