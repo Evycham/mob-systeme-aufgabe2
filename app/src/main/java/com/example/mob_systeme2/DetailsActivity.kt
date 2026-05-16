@@ -187,7 +187,10 @@ class DetailsActivity : AppCompatActivity() {
             showMessage("Todo was successful created!")
         } else {
             showMessage("Successful saved!")
-            if(!previousIsDone!! && isDone ) playDoneSound()
+            if(!previousIsDone!! && isDone ) {
+                playDoneSound()
+                return
+            }
         }
 
         finish()
@@ -243,23 +246,14 @@ class DetailsActivity : AppCompatActivity() {
      * Plays the completion sound from the beginning.
      */
     private fun playDoneSound(){
-        donePlayer?.let {
-            // wenn der Sound schon läuft, springt an den Anfang
-            if (it.isPlaying) {
-                it.seekTo(0)
-            } else {
-                it.start()
+        // let nimmt donePlayer und gibt ihn im Block als player
+        donePlayer?.let{ player ->
+            player.seekTo(0)
+            player.setOnCompletionListener {
+                finish()
             }
-        }
-    }
-
-    /**
-     * Releases the media player when the activity is destroyed.
-     */
-    // TODO: to short
-    override fun onDestroy() {
-        donePlayer?.release()
-        donePlayer = null
-        super.onDestroy()
+            player.start()
+        // wenn donePlayer null -> einfach finish()
+        } ?: finish()
     }
 }

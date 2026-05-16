@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_systeme2.model.Todo;
+import java.time.LocalDate
 
 /**
  * RecyclerView adapter for rendering todos inside the list on the main screen.
@@ -63,9 +64,18 @@ class TodoAdapter(
         holder.descriptionView.text = todo.description.ifBlank { "No description" }
         holder.categoryView.text = todo.category.ifBlank { "No category" }
         holder.priorityView.text = "Priority: ${todo.priority}"
+
         // Wenn dueDate nicht null ist, wandle zu String um; sonst "without"
         holder.deadlineView.text = "Deadline: ${todo.dueDate?.toString() ?: "without"}"
-        // TODO: if already passed the deadline and not closed -> red or smth like that
+
+        // da dueDate ein var ist, sagt Kotlin: vielleicht ist es beim zweiten Zugriff schon wieder null
+        // deswegen braucht man eine val hier
+        val dueDate = todo.dueDate
+        if (dueDate != null && dueDate.isBefore(LocalDate.now()) && !todo.done) {
+            holder.deadlineView.setTextColor(Color.parseColor("#EF6C00"))
+        } else {
+            holder.deadlineView.setTextColor(Color.DKGRAY)
+        }
 
         if(todo.done) {
             holder.statusView.text = "Done"
