@@ -14,6 +14,7 @@ import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import android.app.DatePickerDialog
+import android.media.MediaPlayer
 import android.view.View
 
 
@@ -27,6 +28,7 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
     private lateinit var headlineView: TextView
+    private var donePlayer: MediaPlayer? = null
 
     private var todoId: String? = null
 
@@ -54,6 +56,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
         configureScreen(todo)
+        donePlayer = MediaPlayer.create(this, R.raw.fahhhhh)
         deleteButton.setOnClickListener { deleteTodo() }
         saveButton.setOnClickListener { saveTodo(todo) }
         dueDateInput.setOnClickListener { openDataPicker() }
@@ -127,11 +130,18 @@ class DetailsActivity : AppCompatActivity() {
         val dueDate = if (dueDateText.isEmpty()) {
             null
         } else {
-            val parsedDate = LocalDate.parse(dueDateText)
+            val parsedDate = try {
+                LocalDate.parse(dueDateText)
+            } catch (e: Exception){
+                showMessage("Please enter a valid date!")
+                return
+            }
+
             if (parsedDate.isBefore(LocalDate.now())) {
                 showMessage("Deadline can not be earlier than today!")
                 return
             }
+
             parsedDate
         }
 
@@ -139,6 +149,8 @@ class DetailsActivity : AppCompatActivity() {
         val description = descriptionInput.text.toString().trim()
         val category = categoryInput.text.toString().trim()
         val isDone = doneCheckBox.isChecked
+
+        val previousIsDone = existingTodo?.done
 
         val errorMessage = if (existingTodo == null){
             TodoRepo.createTodo(title, description, priority, category, dueDate)
@@ -159,7 +171,13 @@ class DetailsActivity : AppCompatActivity() {
             return
         }
 
-        showMessage(if (existingTodo == null) "Todo was successful created!" else "Successful saved!")
+        if(existingTodo == null){
+            showMessage("Todo was successful created!")
+        } else {
+            showMessage("Successful saved!")
+            if(!previousIsDone!! && isDone ) playDoneSound()
+        }
+
         finish()
     }
 
@@ -207,5 +225,22 @@ class DetailsActivity : AppCompatActivity() {
         priorityInput.setText(task.priority.toString())
         dueDateInput.setText(task.dueDate?.toString().orEmpty())
         doneCheckBox.isChecked = task.done
+    }
+
+    private fun playDoneSound(){
+        donePlayer?.let {
+            // wenn der Sound schon läuft, springt an den Anfang
+            if (it.isPlaying) {
+                it.seekTo(0)
+            } else {
+                it.start()
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        donePlayer?.release()
+        donePlayer = null
+        super.onDestroy()
     }
 }
