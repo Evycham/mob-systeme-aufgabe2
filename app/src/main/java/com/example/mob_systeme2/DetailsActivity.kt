@@ -187,12 +187,8 @@ class DetailsActivity : AppCompatActivity() {
             showMessage("Todo was successful created!")
         } else {
             showMessage("Successful saved!")
-            if(!previousIsDone!! && isDone ) {
-                playDoneSound()
-                return
-            }
+            if(!previousIsDone!! && isDone ) playDoneSound()
         }
-
         finish()
     }
 
@@ -249,9 +245,6 @@ class DetailsActivity : AppCompatActivity() {
         // let nimmt donePlayer und gibt ihn im Block als player
         donePlayer?.let{ player ->
             player.seekTo(0)
-            player.setOnCompletionListener {
-                finish()
-            }
             player.start()
         // wenn donePlayer null -> einfach finish()
         } ?: finish()
