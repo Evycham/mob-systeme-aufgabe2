@@ -11,12 +11,18 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+/**
+ * Dark Material color scheme used by the generated Compose theme.
+ */
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
+/**
+ * Light Material color scheme used by the generated Compose theme.
+ */
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
@@ -33,6 +39,13 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+/**
+ * Root Compose theme wrapper for the project.
+ *
+ * @param darkTheme decides whether the dark color scheme should be used
+ * @param dynamicColor enables Android 12 dynamic colors when available
+ * @param content composable content that should receive the theme
+ */
 @Composable
 fun Mobsysteme2Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),

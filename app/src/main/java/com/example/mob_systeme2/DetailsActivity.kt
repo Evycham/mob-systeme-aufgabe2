@@ -18,6 +18,12 @@ import android.media.MediaPlayer
 import android.view.View
 
 
+/**
+ * Screen for creating a new todo or editing an existing one.
+ *
+ * It validates user input, persists changes through [TodoRepo]
+ * and can play a short sound when a todo is marked as done.
+ */
 class DetailsActivity : AppCompatActivity() {
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
@@ -32,6 +38,9 @@ class DetailsActivity : AppCompatActivity() {
 
     private var todoId: String? = null
 
+    /**
+     * Sets up the detail screen, loads the todo from the intent and binds UI actions.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -93,6 +102,9 @@ class DetailsActivity : AppCompatActivity() {
      * This obj must be classified but also should exist earlier than this class
      * */
     companion object{
+        /**
+         * Intent extra key used to pass the id of the todo that should be edited.
+         */
         const val EXTRA_TODO_ID = "todo_id"
     }
 
@@ -227,6 +239,9 @@ class DetailsActivity : AppCompatActivity() {
         doneCheckBox.isChecked = task.done
     }
 
+    /**
+     * Plays the completion sound from the beginning.
+     */
     private fun playDoneSound(){
         donePlayer?.let {
             // wenn der Sound schon läuft, springt an den Anfang
@@ -238,6 +253,10 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Releases the media player when the activity is destroyed.
+     */
+    // TODO: to short
     override fun onDestroy() {
         donePlayer?.release()
         donePlayer = null

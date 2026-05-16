@@ -13,6 +13,12 @@ import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 
 
+/**
+ * Start screen of the app.
+ *
+ * This activity shows the list of all todos, allows sorting,
+ * and opens the detail screen for creating or editing entries.
+ */
 class MainActivity : ComponentActivity() {
 
     private lateinit var titleTextView: TextView
@@ -28,6 +34,9 @@ class MainActivity : ComponentActivity() {
     private lateinit var todoAdapter: TodoAdapter
 
 
+    /**
+     * Initializes the screen, binds the list adapter and registers all click listeners.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -75,22 +84,36 @@ class MainActivity : ComponentActivity() {
         emptyState = findViewById(R.id.tvEmptyState)
     }
 
+    /**
+     * Opens the details screen in create mode.
+     */
     private fun createTodo(){
         val intent = Intent(this, DetailsActivity::class.java)
         startActivity(intent)
     }
 
+    /**
+     * Opens the details screen in edit mode for the selected todo.
+     *
+     * @param todo todo that should be edited
+     */
     private fun editTodo(todo: Todo){
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(DetailsActivity.EXTRA_TODO_ID, todo.id)
         startActivity(intent)
     }
 
+    /**
+     * Refreshes the RecyclerView and updates the empty-state message.
+     */
     private fun renderTodos(){
         todoAdapter.updateTodos(TodoRepo.todos)
         emptyState.visibility = if(TodoRepo.todos.isEmpty()) View.VISIBLE else View.GONE
     }
 
+    /**
+     * Reloads the list whenever the activity becomes active again.
+     */
     override fun onResume() {
         super.onResume()
         renderTodos()
