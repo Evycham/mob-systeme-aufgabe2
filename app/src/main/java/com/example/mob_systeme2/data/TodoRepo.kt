@@ -112,15 +112,15 @@ object TodoRepo {
         newDueDate: LocalDate?
     ): String?{
 
-        val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
+        val oldTodo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
         if(newTitle.isBlank()) return "Title can not be empty!"
 
-        if(newTitle != todo.title) todo.title = newTitle
-        if(newDescription != todo.description) todo.description = newDescription
-        if(newPriority != todo.priority) todo.priority = newPriority
-        if(newCategory != todo.category) todo.category = newCategory
-        if(newDueDate != todo.dueDate) todo.dueDate = newDueDate
-        if(isDone != todo.done) todo.done = isDone
+        if(newTitle != oldTodo.title) oldTodo.title = newTitle
+        if(newDescription != oldTodo.description) oldTodo.description = newDescription
+        if(newPriority != oldTodo.priority) oldTodo.priority = newPriority
+        if(newCategory != oldTodo.category) oldTodo.category = newCategory
+        if(newDueDate != oldTodo.dueDate) oldTodo.dueDate = newDueDate
+        if(isDone != oldTodo.done) oldTodo.done = isDone
 
         return null
     }
@@ -177,4 +177,6 @@ object TodoRepo {
         }
         countId++
     }
+
+
 }
