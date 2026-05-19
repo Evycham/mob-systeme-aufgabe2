@@ -46,6 +46,8 @@ object CategoryRepo {
         if(newName.isBlank()) return "Title ca not be empty!"
 
         if(newName != oldCategory.name) oldCategory.name = newName
+        if(newColorKey != oldCategory.colorKey) oldCategory.colorKey = newColorKey
+        if(newIconKey != oldCategory.iconKey) oldCategory.iconKey = newIconKey
 
         return null
     }
