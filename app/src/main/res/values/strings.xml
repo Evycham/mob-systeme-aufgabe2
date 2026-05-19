@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">mob-systeme2</string>
     <string name="details_headline">Todo Details</string>
-    <string name="details_subtitle">Bearbeite Titel, Beschreibung, Prioritaet und Deadline.</string>
-    <string name="details_title_hint">Titel</string>
-    <string name="details_description_hint">Beschreibung</string>
+    <string name="details_subtitle">Change details.</string>
+    <string name="details_title_hint">Title</string>
+    <string name="details_description_hint">Description</string>
     <string name="details_category_hint">Kategorie</string>
-    <string name="details_priority_hint">Prioritaet 1 bis 3</string>
-    <string name="details_due_date_hint">Deadline auswaehlen</string>
-    <string name="details_done">Erledigt</string>
-    <string name="details_delete">Loeschen</string>
-    <string name="details_save">Speichern</string>
+    <string name="details_priority_hint">Priority</string>
+    <string name="details_due_date_hint">Deadline</string>
+    <string name="details_done">Done</string>
+    <string name="details_delete">Remove</string>
+    <string name="details_save">Save</string>
 </resources>

@@ -55,11 +55,4 @@ class MainActivity : ComponentActivity() {
         val intent = Intent(this, DetailsActivity::class.java)
         startActivity(intent)
     }
-
-    private fun editTodo(todo: Todo){
-        val intent = Intent(this, DetailsActivity::class.java)
-        intent.putExtra(DetailsActivity.EXTRA_TODO_ID, todo.id)
-        startActivity(intent)
-    }
-
 }

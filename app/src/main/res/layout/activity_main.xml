@@ -27,7 +27,9 @@
             android:text="My ToDos"
             android:textColor="@android:color/black"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="30dp"
+            />
 
         <TextView
             android:id="@+id/tvMainSubtitle"

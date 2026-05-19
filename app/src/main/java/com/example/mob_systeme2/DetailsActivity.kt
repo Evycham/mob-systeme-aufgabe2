@@ -15,13 +15,14 @@ import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import android.app.DatePickerDialog
 import android.view.View
+import android.widget.Spinner
 
 
 class DetailsActivity : AppCompatActivity() {
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
     private lateinit var categoryInput: EditText
-    private lateinit var priorityInput: EditText
+    private lateinit var priorityInput: Spinner
     private lateinit var dueDateInput: EditText
     private lateinit var doneCheckBox: CheckBox
     private lateinit var deleteButton: Button
@@ -69,7 +70,7 @@ class DetailsActivity : AppCompatActivity() {
         titleInput = findViewById(R.id.etTitle)
         descriptionInput = findViewById(R.id.etDescription)
         categoryInput = findViewById(R.id.etCategory)
-        priorityInput = findViewById(R.id.etPriority)
+        priorityInput = findViewById(R.id.spPriority)
         dueDateInput = findViewById(R.id.etDueDate)
         doneCheckBox = findViewById(R.id.cbDone)
         deleteButton = findViewById(R.id.btnDelete)
@@ -117,11 +118,7 @@ class DetailsActivity : AppCompatActivity() {
      * */
     private fun saveTodo(existingTodo: Todo?){
 
-        val priority = priorityInput.text.toString().trim().toIntOrNull()
-        if(priority == null){
-            showMessage("Priority must be a number!")
-            return
-        }
+        val priority = priorityInput.selectedItem.toString().toInt()
 
         val dueDateText = dueDateInput.text.toString().trim()
         val dueDate = if(dueDateText.isEmpty()) null else LocalDate.parse(dueDateText)
@@ -180,6 +177,7 @@ class DetailsActivity : AppCompatActivity() {
             headlineView.text = "New ToDo"
             doneCheckBox.visibility = View.GONE
             deleteButton.visibility = View.GONE
+            priorityInput.setSelection(0)
             return
         }
 
@@ -187,7 +185,7 @@ class DetailsActivity : AppCompatActivity() {
         titleInput.setText(todo.title)
         descriptionInput.setText(todo.description)
         categoryInput.setText(todo.category)
-        priorityInput.setText(todo.priority.toString())
+        priorityInput.setSelection(todo.priority - 1)
         dueDateInput.setText(todo.dueDate?.toString().orEmpty())
         doneCheckBox.isChecked = todo.done
     }

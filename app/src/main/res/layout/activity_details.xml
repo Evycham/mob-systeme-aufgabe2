@@ -76,17 +76,21 @@
                 android:minHeight="48dp"
                 android:paddingVertical="12dp" />
 
-            <EditText
-                android:id="@+id/etPriority"
+            <TextView
+                android:id="@+id/tvPriorityLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:hint="@string/details_priority_hint"
-                android:inputType="number"
-                android:minHeight="48dp"
-                android:paddingVertical="12dp"
-                tools:text="2" />
+                android:text="@string/details_priority_hint"
+                android:textSize="18sp" />
+
+            <Spinner
+                android:id="@+id/spPriority"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:entries="@array/priorities"
+                android:minHeight="48dp" />
 
             <EditText
                 android:id="@+id/etDueDate"
