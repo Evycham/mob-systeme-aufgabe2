@@ -218,8 +218,8 @@ class DetailsActivity : AppCompatActivity() {
      * Function to configure users screen
      * @param task - to ensure that we edit, otherwise create new
      * */
-    private fun configureScreen(todo: Todo?){
-        if(todo == null){
+    private fun configureScreen(task: Todo?){
+        if(task == null){
             headlineView.text = "New ToDo"
             doneCheckBox.visibility = View.GONE
             deleteButton.visibility = View.GONE
@@ -228,12 +228,12 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         headlineView.text = "ToDo Editing"
-        titleInput.setText(todo.title)
-        descriptionInput.setText(todo.description)
-        categoryInput.setText(todo.category)
-        priorityInput.setSelection(todo.priority - 1)
-        dueDateInput.setText(todo.dueDate?.toString().orEmpty())
-        doneCheckBox.isChecked = todo.done
+        titleInput.setText(task.title)
+        descriptionInput.setText(task.description)
+        categoryInput.setText(task.category)
+        priorityInput.setSelection(task.priority - 1)
+        dueDateInput.setText(task.dueDate?.toString().orEmpty())
+        doneCheckBox.isChecked = task.done
     }
 
     /**
