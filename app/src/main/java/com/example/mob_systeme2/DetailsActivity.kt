@@ -14,10 +14,17 @@ import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import android.app.DatePickerDialog
+import android.media.MediaPlayer
 import android.view.View
 import android.widget.Spinner
 
 
+/**
+ * Screen for creating a new todo or editing an existing one.
+ *
+ * It validates user input, persists changes through [TodoRepo]
+ * and can play a short sound when a todo is marked as done.
+ */
 class DetailsActivity : AppCompatActivity() {
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
@@ -28,9 +35,13 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
     private lateinit var headlineView: TextView
+    private var donePlayer: MediaPlayer? = null
 
     private var todoId: String? = null
 
+    /**
+     * Sets up the detail screen, loads the todo from the intent and binds UI actions.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -48,13 +59,14 @@ class DetailsActivity : AppCompatActivity() {
         val todo = todoId?.let { TodoRepo.findTodo(it) }
 
         if(todoId != null && todo == null){
-            showMessage("Todo was not finde.")
+            showMessage("Todo was not find.")
             finish()
             return
         }
 
 
         configureScreen(todo)
+        donePlayer = MediaPlayer.create(this, R.raw.fahhhhh)
         deleteButton.setOnClickListener { deleteTodo() }
         saveButton.setOnClickListener { saveTodo(todo) }
         dueDateInput.setOnClickListener { openDataPicker() }
@@ -88,14 +100,17 @@ class DetailsActivity : AppCompatActivity() {
 
 
     /**
-     * This obj musst be classified but also should exist earlier than this class
+     * This obj must be classified but also should exist earlier than this class
      * */
     companion object{
+        /**
+         * Intent extra key used to pass the id of the todo that should be edited.
+         */
         const val EXTRA_TODO_ID = "todo_id"
     }
 
     /**
-     * Function to delete the chosen Todo
+     * Function to delete the chosen taskEXTRA_TODO_ID
      * */
     private fun deleteTodo(){
 
@@ -114,21 +129,39 @@ class DetailsActivity : AppCompatActivity() {
 
     /**
      * Function to creating or editing of todos
-     * @param existingTodo - to prove if the todo already exists, if not create, otherwise edit
+     * @param existingTodo - to prove if the task already exists, if not create, otherwise edit
      * */
     private fun saveTodo(existingTodo: Todo?){
 
         val priority = priorityInput.selectedItem.toString().toInt()
 
         val dueDateText = dueDateInput.text.toString().trim()
-        val dueDate = if(dueDateText.isEmpty()) null else LocalDate.parse(dueDateText)
+        val dueDate = if (dueDateText.isEmpty()) {
+            null
+        } else {
+            val parsedDate = try {
+                LocalDate.parse(dueDateText)
+            } catch (e: Exception){
+                showMessage("Please enter a valid date!")
+                return
+            }
+
+            if (parsedDate.isBefore(LocalDate.now())) {
+                showMessage("Deadline can not be earlier than today!")
+                return
+            }
+
+            parsedDate
+        }
 
         val title = titleInput.text.toString().trim()
         val description = descriptionInput.text.toString().trim()
         val category = categoryInput.text.toString().trim()
         val isDone = doneCheckBox.isChecked
 
-        val status = if (existingTodo == null){
+        val previousIsDone = existingTodo?.done
+
+        val errorMessage = if (existingTodo == null){
             TodoRepo.createTodo(title, description, priority, category, dueDate)
         } else{
             TodoRepo.editTodo(
@@ -141,7 +174,18 @@ class DetailsActivity : AppCompatActivity() {
                 dueDate
             )
         }
-        showMessage(status)
+
+        if (errorMessage != null) {
+            showMessage(errorMessage)
+            return
+        }
+
+        if(existingTodo == null){
+            showMessage("Todo was successful created!")
+        } else {
+            showMessage("Successful saved!")
+            if(!previousIsDone!! && isDone ) playDoneSound()
+        }
         finish()
     }
 
@@ -156,12 +200,14 @@ class DetailsActivity : AppCompatActivity() {
             ?.let(LocalDate::parse)
             ?: LocalDate.now()
 
+        // Datum holen
         DatePickerDialog(
             this,
             { _, year, month, day ->
                 val selectedDate = LocalDate.of(year, month + 1, day)
                 dueDateInput.setText(selectedDate.toString())
             },
+            // Ersetzen
             initialDate.year,
             initialDate.monthValue - 1,
             initialDate.dayOfMonth
@@ -170,7 +216,7 @@ class DetailsActivity : AppCompatActivity() {
 
     /**
      * Function to configure users screen
-     * @param todo - to be sure that we edit, otherwise create new
+     * @param task - to ensure that we edit, otherwise create new
      * */
     private fun configureScreen(todo: Todo?){
         if(todo == null){
@@ -188,5 +234,17 @@ class DetailsActivity : AppCompatActivity() {
         priorityInput.setSelection(todo.priority - 1)
         dueDateInput.setText(todo.dueDate?.toString().orEmpty())
         doneCheckBox.isChecked = todo.done
+    }
+
+    /**
+     * Plays the completion sound from the beginning.
+     */
+    private fun playDoneSound(){
+        // let nimmt donePlayer und gibt ihn im Block als player
+        donePlayer?.let{ player ->
+            player.seekTo(0)
+            player.start()
+        // wenn donePlayer null -> einfach finish()
+        } ?: finish()
     }
 }

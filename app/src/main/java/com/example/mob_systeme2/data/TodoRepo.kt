@@ -10,14 +10,28 @@ import kotlin.comparisons.nullsLast
  * Darf nur eine Instanz erzeugt werden, quasi global. Kann einfach überall zugreifen.
  * */
 object TodoRepo {
+    /**
+     * In-memory list of all todos used by the app.
+     */
     val todos = mutableListOf<Todo>()
 
+    /**
+     * Toggle counter for deadline sorting direction.
+     */
     var countDeadline = 0
+
+    /**
+     * Toggle counter for priority sorting direction.
+     */
     var countPriority = 0
+
+    /**
+     * Toggle counter for id sorting direction.
+     */
     var countId = 0
 
     /**
-     * Funktion to create a task
+     * Function to create a task
      *
      * @param title - title can not be empty
      * @param description - description
@@ -34,22 +48,21 @@ object TodoRepo {
         priority: Int,
         category: String,
         dueDate: LocalDate?
-    ): String{
-        if(title.isBlank()) return "Titel can not be empty!"
-        if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        if(category.isBlank()) return "Todo must have Category!"
+    ): String?{
+
+        check(title, priority)
 
         val id = UUID.randomUUID().toString()
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
 
         todos.add(todo)
 
-        return "Todo was successful created!"
+        return null
     }
 
 
     /**
-     * Funktion to remove a task
+     * Function to remove a task
      *
      * @param id - id of the task
      *
@@ -69,7 +82,7 @@ object TodoRepo {
      *
      * @param id - id
      *
-     * @return todo - successful
+     * @return task - successful
      * @return null - did not find
      * */
     fun findTodo(id: String): Todo?{
@@ -78,15 +91,16 @@ object TodoRepo {
 
 
     /**
-     * Function to edit the existed todo
-     * @param id - id from the todo which has to be changed
+     * Function to edit the existed task
+     * @param id - id from the task which has to be changed
      * @param newTitle - new title
      * @param newDescription - new description
      * @param newPriority - new priority
      * @param newCategory - new category
      * @param newDueDate - new deadline
      *
-     * @return String - state successful / something is wrong
+     * @return null - successful
+     * @return String - something is wrong
      * */
     fun editTodo(
         id: String,
@@ -96,13 +110,11 @@ object TodoRepo {
         newCategory: String,
         isDone: Boolean,
         newDueDate: LocalDate?
-    ): String{
+    ): String?{
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
 
-        if(newTitle.isBlank()) return "Titel can not be empty!"
-        if(newPriority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        if(newCategory.isBlank()) return "Todo must have Category!"
+        check(newTitle, newPriority)
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
@@ -111,7 +123,7 @@ object TodoRepo {
         if(newDueDate != todo.dueDate) todo.dueDate = newDueDate
         if(isDone != todo.done) todo.done = isDone
 
-        return "Successful saved!"
+        return null
     }
 
 /**
@@ -128,6 +140,9 @@ object TodoRepo {
         }
     }
 
+    /**
+     * Sorts todos by priority and alternates between ascending and descending order.
+     */
     fun sortPriority(){
         if(countPriority % 2 == 0){
             todos.sortBy { it.priority }
@@ -137,6 +152,12 @@ object TodoRepo {
         countPriority++
     }
 
+    /**
+     * Sorts todos by deadline and alternates between ascending and descending order.
+     *
+     * Todos without a deadline are placed last in ascending order
+     * and first in descending order.
+     */
     fun sortDeadline(){
         if(countDeadline % 2 == 0){
             todos.sortWith(compareBy(nullsLast()) { it.dueDate })
@@ -146,6 +167,9 @@ object TodoRepo {
         countDeadline++
     }
 
+    /**
+     * Sorts todos by id and alternates between ascending and descending order.
+     */
     fun sortId(){
         if(countId % 2 == 0){
             todos.sortBy { it.id }
@@ -153,5 +177,18 @@ object TodoRepo {
             todos.sortByDescending { it.id }
         }
         countId++
+    }
+
+    /**
+     * Validates common todo input values.
+     *
+     * @param title title entered by the user
+     * @param priority priority entered by the user
+     * @return error text if validation fails, otherwise `null`
+     */
+    fun check(title: String, priority: Int): String?{
+        if(title.isBlank()) return "Title can not be empty!"
+        if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
+        return null
     }
 }
