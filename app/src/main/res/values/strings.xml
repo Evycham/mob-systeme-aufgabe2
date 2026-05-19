@@ -5,7 +5,7 @@
     <string name="details_title_hint">Title</string>
     <string name="details_description_hint">Description</string>
     <string name="details_category_hint">Category</string>
-    <string name="details_priority_hint">Priority 1 bis 3</string>
+    <string name="details_priority_hint">Priority:</string>
     <string name="details_due_date_hint">Chose Deadline</string>
     <string name="details_done">Done</string>
     <string name="details_delete">Remove</string>

@@ -50,7 +50,7 @@ object TodoRepo {
         dueDate: LocalDate?
     ): String?{
 
-        check(title, priority)
+        if(title.isBlank()) return "Title can not be empty!"
 
         val id = UUID.randomUUID().toString()
         val todo = Todo(id, title, description, priority, category, done = false, dueDate)
@@ -113,8 +113,7 @@ object TodoRepo {
     ): String?{
 
         val todo: Todo = findTodo(id) ?: return "There is no such a ToDo!"
-
-        check(newTitle, newPriority)
+        if(newTitle.isBlank()) return "Title can not be empty!"
 
         if(newTitle != todo.title) todo.title = newTitle
         if(newDescription != todo.description) todo.description = newDescription
@@ -177,18 +176,5 @@ object TodoRepo {
             todos.sortByDescending { it.id }
         }
         countId++
-    }
-
-    /**
-     * Validates common todo input values.
-     *
-     * @param title title entered by the user
-     * @param priority priority entered by the user
-     * @return error text if validation fails, otherwise `null`
-     */
-    fun check(title: String, priority: Int): String?{
-        if(title.isBlank()) return "Title can not be empty!"
-        if(priority !in 1..3) return "Priority has to be in the range from 1 to 3!"
-        return null
     }
 }
