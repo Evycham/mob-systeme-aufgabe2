@@ -18,7 +18,7 @@ data class Todo (
     var title: String,
     var description: String?,
     var priority: Int,
-    val categoryIds: MutableSet<String>?,
+    val categoryIds: MutableSet<String>,
     var done: Boolean,
     var dueDate: LocalDate?
 )
