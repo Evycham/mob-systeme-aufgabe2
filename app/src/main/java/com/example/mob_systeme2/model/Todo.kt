@@ -16,9 +16,9 @@ import java.time.LocalDate
 data class Todo (
     val id: String,
     var title: String,
-    var description: String,
+    var description: String?,
     var priority: Int,
-    var category: String,
+    val categoryIds: MutableSet<String>?,
     var done: Boolean,
     var dueDate: LocalDate?
 )
