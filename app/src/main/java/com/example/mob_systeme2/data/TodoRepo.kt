@@ -36,7 +36,7 @@ object TodoRepo {
      * @param title - title can not be empty
      * @param description - description
      * @param priority - priority (from 1 to 3)
-     * @param category - each task must contain a category
+     * @param categoryIds - each task must contain a category
      * @param dueDate - the DeadLine
      *
      * @return null if the task was successful created
@@ -46,14 +46,15 @@ object TodoRepo {
         title: String,
         description: String,
         priority: Int,
-        category: String,
+        categoryIds: Set<String>,
         dueDate: LocalDate?
     ): String?{
 
         if(title.isBlank()) return "Title can not be empty!"
 
         val id = UUID.randomUUID().toString()
-        val todo = Todo(id, title, description, priority, category, done = false, dueDate)
+        val todo = Todo(id, title, description, priority,
+            categoryIds as MutableSet<String>, done = false, dueDate)
 
         todos.add(todo)
 
@@ -96,7 +97,7 @@ object TodoRepo {
      * @param newTitle - new title
      * @param newDescription - new description
      * @param newPriority - new priority
-     * @param newCategory - new category
+     * @param newCategoryIds - new category
      * @param newDueDate - new deadline
      *
      * @return null - successful
@@ -107,7 +108,7 @@ object TodoRepo {
         newTitle: String,
         newDescription: String,
         newPriority: Int,
-        newCategory: String,
+        newCategoryIds: Set<String>,
         isDone: Boolean,
         newDueDate: LocalDate?
     ): String?{
@@ -118,7 +119,12 @@ object TodoRepo {
         if(newTitle != oldTodo.title) oldTodo.title = newTitle
         if(newDescription != oldTodo.description) oldTodo.description = newDescription
         if(newPriority != oldTodo.priority) oldTodo.priority = newPriority
-        if(newCategory != oldTodo.category) oldTodo.category = newCategory
+
+        if(newCategoryIds != oldTodo.categoryIds){
+            oldTodo.categoryIds.clear()
+            oldTodo.categoryIds.addAll(newCategoryIds)
+        }
+
         if(newDueDate != oldTodo.dueDate) oldTodo.dueDate = newDueDate
         if(isDone != oldTodo.done) oldTodo.done = isDone
 
