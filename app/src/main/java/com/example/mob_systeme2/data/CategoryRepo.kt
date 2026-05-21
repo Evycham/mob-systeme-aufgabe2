@@ -3,11 +3,30 @@ package com.example.mob_systeme2.data
 import com.example.mob_systeme2.model.TodoCategory
 import java.util.UUID
 
+/**
+ * In-memory repository for category management.
+ *
+ * This object stores all categories for the current app process and offers
+ * basic CRUD operations (create, read, update, delete).
+ */
 object CategoryRepo {
 
+    /**
+     * Current list of all categories.
+     *
+     * Note: This list is kept only in memory and is reset when the app process restarts.
+     */
     val categoryList = mutableListOf<TodoCategory>()
 
-
+    /**
+     * Creates a new category and adds it to [categoryList].
+     *
+     * @param id Unused input parameter in current implementation.
+     * @param name Visible category name. Must not be blank.
+     * @param colorKey Optional key that points to a predefined color preset.
+     * @param iconKey Optional key that points to a predefined icon preset.
+     * @return `null` if creation succeeds, otherwise an error message.
+     */
     fun createCategory(
         id: String,
         name: String,
@@ -25,16 +44,39 @@ object CategoryRepo {
         return null
     }
 
+    /**
+     * Deletes an existing category by id.
+     *
+     * @param id Category id.
+     * @return `null` if deletion succeeds, otherwise an error message.
+     */
     fun deleteCategory(id:String): String?{
         val removed = categoryList.removeIf { it.id == id }
 
         return if(removed) null else "There is no such a category!"
     }
 
+    /**
+     * Finds a category by id.
+     *
+     * @param id Category id.
+     * @return Matching [TodoCategory] or `null` if no category exists for this id.
+     */
     fun findCategory(id:String): TodoCategory?{
         return categoryList.find { it.id == id }
     }
 
+    /**
+     * Updates name, color key and icon key of an existing category.
+     *
+     * Only changed values are updated.
+     *
+     * @param id Id of the category to edit.
+     * @param newName New category name. Must not be blank.
+     * @param newColorKey New optional color preset key.
+     * @param newIconKey New optional icon preset key.
+     * @return `null` if update succeeds, otherwise an error message.
+     */
     fun editCategory(
         id: String,
         newName: String,
@@ -51,6 +93,4 @@ object CategoryRepo {
 
         return null
     }
-
-
 }
