@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.data.CategoryRepo
 import com.example.mob_systeme2.model.Todo;
 import java.time.LocalDate
 
@@ -61,8 +62,11 @@ class TodoAdapter(
         val todo = todoList[position]
 
         holder.titleView.text = todo.title
-        holder.descriptionView.text = todo.description.ifBlank { "No description" }
-        holder.categoryView.text = todo.category.ifBlank { "No category" }
+        holder.descriptionView.text = todo.description?.ifBlank { "No description" } ?: "No description"
+        val categoryNames = CategoryRepo.categoryList
+            .filter { todo.categoryIds.contains(it.id) }
+            .joinToString(", ") { it.name }
+        holder.categoryView.text = if (categoryNames.isBlank()) "No category" else categoryNames
         holder.priorityView.text = "Priority: ${todo.priority}"
 
         // Wenn dueDate nicht null ist, wandle zu String um; sonst "without"

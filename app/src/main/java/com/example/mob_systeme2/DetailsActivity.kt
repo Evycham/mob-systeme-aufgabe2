@@ -17,7 +17,9 @@ import android.app.DatePickerDialog
 import android.media.MediaPlayer
 import android.view.View
 import android.widget.Spinner
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.data.CategoryRepo
 
 
 /**
@@ -29,20 +31,20 @@ import androidx.recyclerview.widget.RecyclerView
 class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callback {
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
-    private lateinit var categoryInput: EditText
     private lateinit var priorityInput: Spinner
     private lateinit var dueDateInput: EditText
     private lateinit var doneCheckBox: CheckBox
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
     private lateinit var categoryButton: Button
-    private lateinit var categoryWindow: RecyclerView
+    private lateinit var categoryPreviewList: RecyclerView
     private lateinit var headlineView: TextView
     private var donePlayer: MediaPlayer? = null
 
     private var todoId: String? = null
 
     private var selectedCategoryIds = mutableSetOf<String>()
+    private lateinit var categoryPreviewAdapter: SelectedCategoryPreviewAdapter
 
     /**
      * Sets up the detail screen, loads the todo from the intent and binds UI actions.
@@ -62,7 +64,7 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
         // todoId aus Intent (liefert von einem anderen Activity)
         todoId = intent.getStringExtra(EXTRA_TODO_ID)
         val todo = todoId?.let { TodoRepo.findTodo(it) }
-        todo?.let{ selectedCategoryIds = todo.categoryIds } ?: emptySet<String>()
+        todo?.let { selectedCategoryIds = it.categoryIds.toMutableSet() }
 
         if(todoId != null && todo == null){
             showMessage("Todo was not find.")
@@ -88,7 +90,6 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
     private fun bindViews(){
         titleInput = findViewById(R.id.etTitle)
         descriptionInput = findViewById(R.id.etDescription)
-        categoryInput = findViewById(R.id.etCategory)
         priorityInput = findViewById(R.id.spPriority)
         dueDateInput = findViewById(R.id.etDueDate)
         doneCheckBox = findViewById(R.id.cbDone)
@@ -96,6 +97,10 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
         saveButton = findViewById(R.id.btnSave)
         headlineView = findViewById(R.id.tvDetailsHeadline)
         categoryButton = findViewById(R.id.btnOpenCategoryPicker)
+        categoryPreviewList = findViewById(R.id.rvSelectedCategories)
+        categoryPreviewAdapter = SelectedCategoryPreviewAdapter()
+        categoryPreviewList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        categoryPreviewList.adapter = categoryPreviewAdapter
     }
 
     /**
@@ -164,20 +169,19 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
 
         val title = titleInput.text.toString().trim()
         val description = descriptionInput.text.toString().trim()
-        val category = categoryInput.text.toString().trim()
         val isDone = doneCheckBox.isChecked
 
         val previousIsDone = existingTodo?.done
 
         val errorMessage = if (existingTodo == null){
-            TodoRepo.createTodo(title, description, priority, category, dueDate)
+            TodoRepo.createTodo(title, description, priority, selectedCategoryIds, dueDate)
         } else{
             TodoRepo.editTodo(
                 existingTodo.id,
                 title,
                 description,
                 priority,
-                category,
+                selectedCategoryIds,
                 isDone,
                 dueDate
             )
@@ -238,10 +242,10 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
         headlineView.text = "ToDo Editing"
         titleInput.setText(task.title)
         descriptionInput.setText(task.description)
-        categoryInput.setText(task.category)
         priorityInput.setSelection(task.priority - 1)
         dueDateInput.setText(task.dueDate?.toString().orEmpty())
         doneCheckBox.isChecked = task.done
+        renderSelectedCategories()
     }
 
     /**
@@ -261,13 +265,42 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
     }
 
 
-    override fun onCategoiresPicked(ids: Set<String>){
+    override fun onCategoriesPicked(ids: Set<String>) {
         selectedCategoryIds.clear()
         selectedCategoryIds.addAll(ids)
-        rendernSelectedCategories()
+        renderSelectedCategories()
     }
 
-    private fun rendernSelectedCategories(){
+    private fun renderSelectedCategories() {
+        val selectedNames = CategoryRepo.categoryList
+            .filter { selectedCategoryIds.contains(it.id) }
+            .map { it.name }
+        categoryPreviewAdapter.submit(selectedNames)
+    }
+}
 
+private class SelectedCategoryPreviewAdapter : RecyclerView.Adapter<SelectedCategoryPreviewAdapter.NameViewHolder>() {
+    private val names = mutableListOf<String>()
+
+    fun submit(newNames: List<String>) {
+        names.clear()
+        names.addAll(newNames)
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: android.view.ViewGroup, viewType: Int): NameViewHolder {
+        val view = android.view.LayoutInflater.from(parent.context)
+            .inflate(android.R.layout.simple_list_item_1, parent, false)
+        return NameViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: NameViewHolder, position: Int) {
+        holder.textView.text = names[position]
+    }
+
+    override fun getItemCount(): Int = names.size
+
+    class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textView: TextView = itemView.findViewById(android.R.id.text1)
     }
 }
