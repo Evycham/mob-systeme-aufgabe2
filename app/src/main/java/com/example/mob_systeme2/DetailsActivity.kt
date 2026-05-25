@@ -17,6 +17,7 @@ import android.app.DatePickerDialog
 import android.media.MediaPlayer
 import android.view.View
 import android.widget.Spinner
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -25,7 +26,7 @@ import android.widget.Spinner
  * It validates user input, persists changes through [TodoRepo]
  * and can play a short sound when a todo is marked as done.
  */
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callback {
     private lateinit var titleInput: EditText
     private lateinit var descriptionInput: EditText
     private lateinit var categoryInput: EditText
@@ -34,10 +35,14 @@ class DetailsActivity : AppCompatActivity() {
     private lateinit var doneCheckBox: CheckBox
     private lateinit var deleteButton: Button
     private lateinit var saveButton: Button
+    private lateinit var categoryButton: Button
+    private lateinit var categoryWindow: RecyclerView
     private lateinit var headlineView: TextView
     private var donePlayer: MediaPlayer? = null
 
     private var todoId: String? = null
+
+    private var selectedCategoryIds = mutableSetOf<String>()
 
     /**
      * Sets up the detail screen, loads the todo from the intent and binds UI actions.
@@ -57,6 +62,7 @@ class DetailsActivity : AppCompatActivity() {
         // todoId aus Intent (liefert von einem anderen Activity)
         todoId = intent.getStringExtra(EXTRA_TODO_ID)
         val todo = todoId?.let { TodoRepo.findTodo(it) }
+        todo?.let{ selectedCategoryIds = todo.categoryIds } ?: emptySet<String>()
 
         if(todoId != null && todo == null){
             showMessage("Todo was not find.")
@@ -70,6 +76,7 @@ class DetailsActivity : AppCompatActivity() {
         deleteButton.setOnClickListener { deleteTodo() }
         saveButton.setOnClickListener { saveTodo(todo) }
         dueDateInput.setOnClickListener { openDataPicker() }
+        categoryButton.setOnClickListener { openCategoryPicker() }
     }
 
 
@@ -88,6 +95,7 @@ class DetailsActivity : AppCompatActivity() {
         deleteButton = findViewById(R.id.btnDelete)
         saveButton = findViewById(R.id.btnSave)
         headlineView = findViewById(R.id.tvDetailsHeadline)
+        categoryButton = findViewById(R.id.btnOpenCategoryPicker)
     }
 
     /**
@@ -246,5 +254,20 @@ class DetailsActivity : AppCompatActivity() {
             player.start()
         // wenn donePlayer null -> einfach finish()
         } ?: finish()
+    }
+
+    private fun openCategoryPicker(){
+        SelectCategoriesBottomSheet.newInstance(selectedCategoryIds).show(supportFragmentManager, "select_categories")
+    }
+
+
+    override fun onCategoiresPicked(ids: Set<String>){
+        selectedCategoryIds.clear()
+        selectedCategoryIds.addAll(ids)
+        rendernSelectedCategories()
+    }
+
+    private fun rendernSelectedCategories(){
+
     }
 }

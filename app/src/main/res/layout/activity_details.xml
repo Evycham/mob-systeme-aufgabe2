@@ -67,16 +67,36 @@
                 android:scrollbars="vertical"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:id="@+id/etCategory"
+            <TextView
+                android:id="@+id/tvCategoryLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:hint="@string/details_category_hint"
-                android:inputType="textCapWords"
-                android:minHeight="48dp"
-                android:paddingVertical="12dp" />
+                android:text="Categories"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnOpenCategoryPicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Choose categories" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectedCategories"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="8dp"
+                tools:itemCount="3"
+                tools:listitem="@android:layout/activity_list_item" />
+
+            <EditText
+                android:id="@+id/etCategory"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tvPriorityLabel"
