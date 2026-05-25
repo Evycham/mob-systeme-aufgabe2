@@ -9,6 +9,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.adapters.TodoAdapter
 import com.example.mob_systeme2.data.TodoRepo
 import com.example.mob_systeme2.model.Todo
 
