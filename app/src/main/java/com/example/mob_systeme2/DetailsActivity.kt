@@ -20,6 +20,7 @@ import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_systeme2.data.CategoryRepo
+import com.example.mob_systeme2.sheets.SelectCategoriesBottomSheet
 
 
 /**

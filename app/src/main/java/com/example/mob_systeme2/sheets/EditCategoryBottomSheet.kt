@@ -1,4 +1,4 @@
-package com.example.mob_systeme2
+package com.example.mob_systeme2.sheets
 
 import android.content.Context
 import android.os.Bundle
@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
+import com.example.mob_systeme2.R
 import com.example.mob_systeme2.data.CategoryRepo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -43,16 +44,20 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val nameInput: EditText = view.findViewById(R.id.etCategoryNameInput)
-        val colorSpinner = buildSpinner(
-            parent = view.findViewById(R.id.rvColorList),
-            values = COLOR_KEYS
-        )
-        val iconSpinner = buildSpinner(
-            parent = view.findViewById(R.id.rvIconList),
-            values = ICON_KEYS
-        )
+        val colorSpinner: Spinner = view.findViewById(R.id.spColorList)
+        val iconSpinner: Spinner = view.findViewById(R.id.spIconList)
         val saveButton: Button = view.findViewById(R.id.btnSaveCategory)
         val deleteButton: Button = view.findViewById(R.id.btnDeleteCategory)
+
+        val colorAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, COLOR_KEYS)
+        colorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        colorSpinner.adapter = colorAdapter
+
+        val iconAdapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, ICON_KEYS)
+        iconAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        iconSpinner.adapter = iconAdapter
 
         val existing = categoryId?.let { CategoryRepo.findCategory(it) }
         if (existing != null) {
@@ -96,16 +101,6 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         callback = null
-    }
-
-    private fun buildSpinner(parent: ViewGroup, values: List<String>): Spinner {
-        parent.removeAllViews()
-        val spinner = Spinner(requireContext())
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, values)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-        parent.addView(spinner)
-        return spinner
     }
 
     companion object {

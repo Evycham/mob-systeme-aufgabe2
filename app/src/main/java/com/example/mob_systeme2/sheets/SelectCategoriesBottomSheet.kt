@@ -1,4 +1,4 @@
-package com.example.mob_systeme2
+package com.example.mob_systeme2.sheets
 
 import android.content.Context
 import android.os.Bundle
@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.R
+import com.example.mob_systeme2.adapters.CategorySelectionAdapter
 import com.example.mob_systeme2.data.CategoryRepo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.example.mob_systeme2.adapters.CategorySelectionAdapter
 
 class SelectCategoriesBottomSheet : BottomSheetDialogFragment() {
 
@@ -49,7 +50,9 @@ class SelectCategoriesBottomSheet : BottomSheetDialogFragment() {
             categories = CategoryRepo.getCategories(),
             selectedIds = currentSelectedIds,
             onCheckedChanged = { categoryId, isChecked ->
-                if (isChecked) currentSelectedIds.add(categoryId) else currentSelectedIds.remove(categoryId)
+                if (isChecked) currentSelectedIds.add(categoryId) else currentSelectedIds.remove(
+                    categoryId
+                )
             }
         )
         val list = view.findViewById<RecyclerView>(R.id.rvSelectableCategories)

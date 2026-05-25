@@ -1,4 +1,4 @@
-package com.example.mob_systeme2
+package com.example.mob_systeme2.sheets
 
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.CheckBox
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mob_systeme2.R
 import com.example.mob_systeme2.data.CategoryRepo
 import com.example.mob_systeme2.model.TodoCategory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
