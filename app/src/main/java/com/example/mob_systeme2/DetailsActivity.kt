@@ -272,7 +272,7 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
     }
 
     private fun renderSelectedCategories() {
-        val selectedNames = CategoryRepo.categoryList
+        val selectedNames = CategoryRepo.getCategories()
             .filter { selectedCategoryIds.contains(it.id) }
             .map { it.name }
         categoryPreviewAdapter.submit(selectedNames)

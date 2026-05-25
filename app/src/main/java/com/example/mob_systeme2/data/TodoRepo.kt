@@ -13,7 +13,9 @@ object TodoRepo {
     /**
      * In-memory list of all todos used by the app.
      */
-    val todos = mutableListOf<Todo>()
+    private val todos = mutableListOf<Todo>()
+
+    fun getTodos(): List<Todo> = todos.toList()
 
     /**
      * Toggle counter for deadline sorting direction.
@@ -53,8 +55,15 @@ object TodoRepo {
         if(title.isBlank()) return "Title can not be empty!"
 
         val id = UUID.randomUUID().toString()
-        val todo = Todo(id, title, description, priority,
-            categoryIds as MutableSet<String>, done = false, dueDate)
+        val todo = Todo(
+            id = id,
+            title = title,
+            description = description,
+            priority = priority,
+            categoryIds = categoryIds.toMutableSet(),
+            done = false,
+            dueDate = dueDate
+        )
 
         todos.add(todo)
 

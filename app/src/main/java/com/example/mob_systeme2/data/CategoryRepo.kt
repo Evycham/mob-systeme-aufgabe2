@@ -16,7 +16,9 @@ object CategoryRepo {
      *
      * Note: This list is kept only in memory and is reset when the app process restarts.
      */
-    val categoryList = mutableListOf<TodoCategory>()
+    private val categoryList = mutableListOf<TodoCategory>()
+
+    fun getCategories(): List<TodoCategory> = categoryList.toList()
 
     /**
      * Creates a new category and adds it to [categoryList].
@@ -28,7 +30,6 @@ object CategoryRepo {
      * @return `null` if creation succeeds, otherwise an error message.
      */
     fun createCategory(
-        id: String,
         name: String,
         colorKey: String?,
         iconKey: String?
@@ -36,8 +37,8 @@ object CategoryRepo {
 
         if(name.isBlank()) return "Name can not be empty!"
 
-        val id = UUID.randomUUID().toString()
-        val category = TodoCategory(id, name, colorKey, iconKey)
+        val categoryId = UUID.randomUUID().toString()
+        val category = TodoCategory(categoryId, name, colorKey, iconKey)
 
         categoryList.add(category)
 

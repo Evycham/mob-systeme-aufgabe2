@@ -64,7 +64,7 @@ class TodoAdapter(
 
         holder.titleView.text = todo.title
         holder.descriptionView.text = todo.description?.ifBlank { "No description" } ?: "No description"
-        val categoryNames = CategoryRepo.categoryList
+        val categoryNames = CategoryRepo.getCategories()
             .filter { todo.categoryIds.contains(it.id) }
             .joinToString(", ") { it.name }
         holder.categoryView.text = if (categoryNames.isBlank()) "No category" else categoryNames

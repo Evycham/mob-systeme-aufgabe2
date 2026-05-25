@@ -46,7 +46,7 @@ class SelectCategoriesBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val categoryAdapter = CategorySelectionAdapter(
-            categories = CategoryRepo.categoryList,
+            categories = CategoryRepo.getCategories(),
             selectedIds = currentSelectedIds,
             onCheckedChanged = { categoryId, isChecked ->
                 if (isChecked) currentSelectedIds.add(categoryId) else currentSelectedIds.remove(categoryId)
