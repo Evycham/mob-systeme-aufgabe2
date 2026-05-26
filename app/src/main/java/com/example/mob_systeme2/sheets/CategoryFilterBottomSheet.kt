@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_systeme2.R
 import com.example.mob_systeme2.data.CategoryRepo
 import com.example.mob_systeme2.model.TodoCategory
+import com.example.mob_systeme2.ui.CategoryVisuals
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
@@ -120,7 +121,7 @@ private class CategoryFilterAdapter(
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         val category = categories[position]
-        holder.checkBox.text = category.name
+        holder.checkBox.text = "${CategoryVisuals.iconFor(category.iconKey)}  ${category.name}"
         holder.checkBox.isChecked = selectedIds.contains(category.id)
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             onChecked(category.id, isChecked)

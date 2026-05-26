@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mob_systeme2.R
 import com.example.mob_systeme2.data.CategoryRepo
 import com.example.mob_systeme2.model.Todo
+import com.example.mob_systeme2.ui.CategoryVisuals
 import java.time.LocalDate
 
 /**
@@ -66,7 +67,7 @@ class TodoAdapter(
         holder.descriptionView.text = todo.description?.ifBlank { "No description" } ?: "No description"
         val categoryNames = CategoryRepo.getCategories()
             .filter { todo.categoryIds.contains(it.id) }
-            .joinToString(", ") { it.name }
+            .joinToString("  ") { "${CategoryVisuals.iconFor(it.iconKey)} ${it.name}" }
         holder.categoryView.text = if (categoryNames.isBlank()) "No category" else categoryNames
         holder.priorityView.text = "Priority: ${todo.priority}"
 

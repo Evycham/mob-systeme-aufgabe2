@@ -1,6 +1,7 @@
 package com.example.mob_systeme2
 
 import android.content.Intent
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -16,6 +17,7 @@ import com.example.mob_systeme2.model.TodoCategory
 import com.example.mob_systeme2.model.Todo
 import com.example.mob_systeme2.sheets.CategoryFilterBottomSheet
 import com.example.mob_systeme2.sheets.EditCategoryBottomSheet
+import com.example.mob_systeme2.ui.CategoryVisuals
 
 
 /**
@@ -225,7 +227,11 @@ private class MainCategoryAdapter(
     override fun onBindViewHolder(holder: MainCategoryViewHolder, position: Int) {
         val category = categories[position]
         holder.categoryName.text = category.name
-        holder.categoryIcon.text = category.iconKey?.firstOrNull()?.uppercase() ?: "•"
+        holder.categoryIcon.text = CategoryVisuals.iconFor(category.iconKey)
+        holder.categoryIcon.background = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(CategoryVisuals.colorFor(category.colorKey))
+        }
         holder.itemView.setOnClickListener { onCategoryClick(category) }
     }
 
