@@ -14,8 +14,14 @@ import com.example.mob_systeme2.data.CategoryRepo
 import com.example.mob_systeme2.model.TodoCategory
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+/**
+ * Bottom sheet for filtering todos by category and opening category editing.
+ */
 class CategoryFilterBottomSheet : BottomSheetDialogFragment() {
 
+    /**
+     * Callback methods consumed by the host activity.
+     */
     interface Callback {
         fun onApplyCategoryFilter(selectedIds: Set<String>)
         fun onOpenCategoryEditor(categoryId: String?)
@@ -86,6 +92,9 @@ class CategoryFilterBottomSheet : BottomSheetDialogFragment() {
     companion object {
         private const val ARG_SELECTED_IDS = "arg_selected_ids"
 
+        /**
+         * Creates a new filter sheet with preselected category ids.
+         */
         fun newInstance(selectedIds: Set<String>): CategoryFilterBottomSheet {
             return CategoryFilterBottomSheet().apply {
                 arguments = Bundle().apply {
@@ -121,6 +130,9 @@ private class CategoryFilterAdapter(
 
     override fun getItemCount(): Int = categories.size
 
+    /**
+     * View holder for one filter row (checkbox + edit button).
+     */
     class FilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.cbCategoryFilter)
         val editButton: Button = itemView.findViewById(R.id.btnEditCategory)

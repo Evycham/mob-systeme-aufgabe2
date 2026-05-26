@@ -23,6 +23,16 @@ import com.example.mob_systeme2.sheets.EditCategoryBottomSheet
  *
  * This activity shows the list of all todos, allows sorting,
  * and opens the detail screen for creating or editing entries.
+ *
+ * App overview:
+ * - `MainActivity` is the navigation hub and list screen.
+ * - `DetailsActivity` creates/edits single todos.
+ * - Category management is handled via bottom sheets (filter + edit/create).
+ * - Persistence is provided by Room through `TodoRepo` and `CategoryRepo`.
+ *
+ * @author Yurii Gruzevych
+ * Mat. number: 20367
+ *
  */
 class MainActivity : AppCompatActivity(), CategoryFilterBottomSheet.Callback, EditCategoryBottomSheet.Callback {
 
@@ -50,6 +60,8 @@ class MainActivity : AppCompatActivity(), CategoryFilterBottomSheet.Callback, Ed
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        TodoRepo.init(this)
+        CategoryRepo.init(this)
 
         bindViews()
 
@@ -140,30 +152,50 @@ class MainActivity : AppCompatActivity(), CategoryFilterBottomSheet.Callback, Ed
         emptyState.visibility = if(filtered.isEmpty()) View.VISIBLE else View.GONE
     }
 
+    /**
+     * Reloads category chips in the horizontal category list.
+     */
     private fun renderCategories() {
         categoryAdapter.updateCategories(CategoryRepo.getCategories())
     }
 
+    /**
+     * Opens bottom sheet for category filtering and entry point for category management.
+     */
     private fun openCategoryFilterSheet() {
         CategoryFilterBottomSheet.newInstance(selectedFilterCategoryIds)
             .show(supportFragmentManager, "category_filter_sheet")
     }
 
+    /**
+     * Opens bottom sheet for creating a new category or editing an existing one.
+     *
+     * @param categoryId category to edit, or `null` to create a new category
+     */
     private fun openCategoryEditor(categoryId: String?) {
         EditCategoryBottomSheet.newInstance(categoryId)
             .show(supportFragmentManager, "edit_category_sheet")
     }
 
+    /**
+     * Callback from the filter sheet with the final set of selected category ids.
+     */
     override fun onApplyCategoryFilter(selectedIds: Set<String>) {
         selectedFilterCategoryIds.clear()
         selectedFilterCategoryIds.addAll(selectedIds)
         renderTodos()
     }
 
+    /**
+     * Callback from the filter sheet that requests opening the category editor sheet.
+     */
     override fun onOpenCategoryEditor(categoryId: String?) {
         openCategoryEditor(categoryId)
     }
 
+    /**
+     * Callback from the category editor after create/update/delete.
+     */
     override fun onCategoryChanged() {
         renderCategories()
         renderTodos()
@@ -199,11 +231,17 @@ private class MainCategoryAdapter(
 
     override fun getItemCount(): Int = categories.size
 
+    /**
+     * Replaces the current category list and refreshes the RecyclerView.
+     */
     fun updateCategories(newCategories: List<TodoCategory>) {
         categories = newCategories
         notifyDataSetChanged()
     }
 
+    /**
+     * ViewHolder for a single category chip (icon + label) in the main screen.
+     */
     class MainCategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val categoryIcon: TextView = itemView.findViewById(R.id.tvCategoryIcon)
         val categoryName: TextView = itemView.findViewById(R.id.tvCategoryName)

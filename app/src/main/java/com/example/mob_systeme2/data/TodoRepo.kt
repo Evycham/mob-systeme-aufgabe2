@@ -1,5 +1,8 @@
 package com.example.mob_systeme2.data
 
+import android.content.Context
+import com.example.mob_systeme2.data.local.AppDatabase
+import com.example.mob_systeme2.data.local.TodoDao
 import com.example.mob_systeme2.model.Todo
 import java.time.LocalDate
 import java.util.UUID
@@ -10,12 +13,15 @@ import kotlin.comparisons.nullsLast
  * Darf nur eine Instanz erzeugt werden, quasi global. Kann einfach überall zugreifen.
  * */
 object TodoRepo {
-    /**
-     * In-memory list of all todos used by the app.
-     */
-    private val todos = mutableListOf<Todo>()
+    private var todoDao: TodoDao? = null
 
-    fun getTodos(): List<Todo> = todos.toList()
+    fun init(context: Context) {
+        if (todoDao == null) {
+            todoDao = AppDatabase.getInstance(context).todoDao()
+        }
+    }
+
+    private fun dao(): TodoDao = requireNotNull(todoDao) { "TodoRepo is not initialized. Call TodoRepo.init(context) first." }
 
     /**
      * Toggle counter for deadline sorting direction.
@@ -31,6 +37,22 @@ object TodoRepo {
      * Toggle counter for id sorting direction.
      */
     var countId = 0
+
+    fun getTodos(): List<Todo> {
+        val list = dao().getAll().toMutableList()
+        when (sortType) {
+            "byPriority" -> if (ascendingSort) list.sortBy { it.priority } else list.sortByDescending { it.priority }
+            "byDeadline" -> {
+                if (ascendingSort) {
+                    list.sortWith(compareBy(nullsLast()) { it.dueDate })
+                } else {
+                    list.sortWith(compareBy(nullsFirst(reverseOrder())) { it.dueDate })
+                }
+            }
+            "byId" -> if (ascendingSort) list.sortBy { it.id } else list.sortByDescending { it.id }
+        }
+        return list
+    }
 
     /**
      * Function to create a task
@@ -65,7 +87,7 @@ object TodoRepo {
             dueDate = dueDate
         )
 
-        todos.add(todo)
+        dao().insert(todo)
 
         return null
     }
@@ -80,10 +102,10 @@ object TodoRepo {
      * @return String if there is no task with such id
      * */
     fun deleteTodo(id: String): String?{
-        // gehen ganzes todos-List durch und wenn id gleich zu gesuchten ist, dann löschen
-        val removed = todos.removeIf { it.id == id }
+        val todo = dao().findById(id) ?: return "There is no such a Todo!"
+        dao().delete(todo)
 
-        return if(removed) null else "There is no such a Todo!"
+        return null
     }
 
 
@@ -96,7 +118,7 @@ object TodoRepo {
      * @return null - did not find
      * */
     fun findTodo(id: String): Todo?{
-        return todos.find { it.id == id }
+        return dao().findById(id)
     }
 
 
@@ -134,8 +156,10 @@ object TodoRepo {
             oldTodo.categoryIds.addAll(newCategoryIds)
         }
 
-        if(newDueDate != oldTodo.dueDate) oldTodo.dueDate = newDueDate
-        if(isDone != oldTodo.done) oldTodo.done = isDone
+        if (newDueDate != oldTodo.dueDate) oldTodo.dueDate = newDueDate
+        if (isDone != oldTodo.done) oldTodo.done = isDone
+
+        dao().update(oldTodo)
 
         return null
     }
@@ -154,15 +178,15 @@ object TodoRepo {
         }
     }
 
+    private var sortType = "byId"
+    private var ascendingSort = true
+
     /**
      * Sorts todos by priority and alternates between ascending and descending order.
      */
     fun sortPriority(){
-        if(countPriority % 2 == 0){
-            todos.sortBy { it.priority }
-        } else{
-            todos.sortByDescending { it.priority }
-        }
+        sortType = "byPriority"
+        ascendingSort = countPriority % 2 == 0
         countPriority++
     }
 
@@ -173,11 +197,8 @@ object TodoRepo {
      * and first in descending order.
      */
     fun sortDeadline(){
-        if(countDeadline % 2 == 0){
-            todos.sortWith(compareBy(nullsLast()) { it.dueDate })
-        } else{
-            todos.sortWith(compareBy(nullsFirst(reverseOrder())) {it.dueDate})
-        }
+        sortType = "byDeadline"
+        ascendingSort = countDeadline % 2 == 0
         countDeadline++
     }
 
@@ -185,11 +206,8 @@ object TodoRepo {
      * Sorts todos by id and alternates between ascending and descending order.
      */
     fun sortId(){
-        if(countId % 2 == 0){
-            todos.sortBy { it.id }
-        } else{
-            todos.sortByDescending { it.id }
-        }
+        sortType = "byId"
+        ascendingSort = countId % 2 == 0
         countId++
     }
 

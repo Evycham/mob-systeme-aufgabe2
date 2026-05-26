@@ -1,5 +1,7 @@
 package com.example.mob_systeme2.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.time.LocalDate
 
 /**
@@ -13,7 +15,9 @@ import java.time.LocalDate
  * @property done completion flag
  * @property dueDate optional deadline
  */
+@Entity(tableName = "todos")
 data class Todo (
+    @PrimaryKey
     val id: String,
     var title: String,
     var description: String?,

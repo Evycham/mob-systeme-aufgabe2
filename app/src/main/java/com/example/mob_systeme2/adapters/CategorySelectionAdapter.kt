@@ -1,6 +1,5 @@
 package com.example.mob_systeme2.adapters
 
-import android.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ class CategorySelectionAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.simple_list_item_multiple_choice, parent, false)
+            .inflate(android.R.layout.simple_list_item_multiple_choice, parent, false)
         return CategoryViewHolder(view)
     }
 
@@ -36,6 +35,6 @@ class CategorySelectionAdapter(
     override fun getItemCount(): Int = categories.size
 
     class CategoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val checkedText: CheckedTextView = view.findViewById(R.id.text1)
+        val checkedText: CheckedTextView = view.findViewById(android.R.id.text1)
     }
 }

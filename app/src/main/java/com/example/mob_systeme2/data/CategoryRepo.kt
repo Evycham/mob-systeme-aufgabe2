@@ -1,5 +1,9 @@
 package com.example.mob_systeme2.data
 
+import android.content.Context
+import com.example.mob_systeme2.data.local.AppDatabase
+import com.example.mob_systeme2.data.local.CategoryDao
+import com.example.mob_systeme2.data.local.TodoDao
 import com.example.mob_systeme2.model.TodoCategory
 import java.util.UUID
 
@@ -16,9 +20,21 @@ object CategoryRepo {
      *
      * Note: This list is kept only in memory and is reset when the app process restarts.
      */
-    private val categoryList = mutableListOf<TodoCategory>()
+    private var categoryDao: CategoryDao? = null
+    private var todoDao: TodoDao? = null
 
-    fun getCategories(): List<TodoCategory> = categoryList.toList()
+    fun init(context: Context) {
+        if (categoryDao == null || todoDao == null) {
+            val db = AppDatabase.getInstance(context)
+            categoryDao = db.categoryDao()
+            todoDao = db.todoDao()
+        }
+    }
+
+    private fun cDao(): CategoryDao = requireNotNull(categoryDao) { "CategoryRepo is not initialized. Call CategoryRepo.init(context) first." }
+    private fun tDao(): TodoDao = requireNotNull(todoDao) { "CategoryRepo is not initialized. Call CategoryRepo.init(context) first." }
+
+    fun getCategories(): List<TodoCategory> = cDao().getAll()
 
     /**
      * Creates a new category and adds it to [categoryList].
@@ -40,7 +56,7 @@ object CategoryRepo {
         val categoryId = UUID.randomUUID().toString()
         val category = TodoCategory(categoryId, name, colorKey, iconKey)
 
-        categoryList.add(category)
+        cDao().insert(category)
 
         return null
     }
@@ -52,9 +68,17 @@ object CategoryRepo {
      * @return `null` if deletion succeeds, otherwise an error message.
      */
     fun deleteCategory(id:String): String?{
-        val removed = categoryList.removeIf { it.id == id }
+        val category = cDao().findById(id) ?: return "There is no such a category!"
+        cDao().delete(category)
 
-        return if(removed) null else "There is no such a category!"
+        val todos = tDao().getAll()
+        todos.forEach { todo ->
+            if (todo.categoryIds.remove(id)) {
+                tDao().update(todo)
+            }
+        }
+
+        return null
     }
 
     /**
@@ -64,7 +88,7 @@ object CategoryRepo {
      * @return Matching [TodoCategory] or `null` if no category exists for this id.
      */
     fun findCategory(id:String): TodoCategory?{
-        return categoryList.find { it.id == id }
+        return cDao().findById(id)
     }
 
     /**
@@ -91,6 +115,7 @@ object CategoryRepo {
         if(newName != oldCategory.name) oldCategory.name = newName
         if(newColorKey != oldCategory.colorKey) oldCategory.colorKey = newColorKey
         if(newIconKey != oldCategory.iconKey) oldCategory.iconKey = newIconKey
+        cDao().update(oldCategory)
 
         return null
     }

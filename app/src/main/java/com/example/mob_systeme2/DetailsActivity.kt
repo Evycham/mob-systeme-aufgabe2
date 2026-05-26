@@ -54,6 +54,8 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_details)
+        TodoRepo.init(this)
+        CategoryRepo.init(this)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -261,17 +263,26 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
         } ?: finish()
     }
 
+    /**
+     * Opens the category selector sheet with the currently selected category ids.
+     */
     private fun openCategoryPicker(){
         SelectCategoriesBottomSheet.newInstance(selectedCategoryIds).show(supportFragmentManager, "select_categories")
     }
 
 
+    /**
+     * Receives final category ids from the selection sheet and updates preview UI.
+     */
     override fun onCategoriesPicked(ids: Set<String>) {
         selectedCategoryIds.clear()
         selectedCategoryIds.addAll(ids)
         renderSelectedCategories()
     }
 
+    /**
+     * Renders the selected categories as name chips in the horizontal preview list.
+     */
     private fun renderSelectedCategories() {
         val selectedNames = CategoryRepo.getCategories()
             .filter { selectedCategoryIds.contains(it.id) }
@@ -280,9 +291,15 @@ class DetailsActivity : AppCompatActivity(), SelectCategoriesBottomSheet.Callbac
     }
 }
 
+/**
+ * Small adapter that renders selected category names inside the details screen.
+ */
 private class SelectedCategoryPreviewAdapter : RecyclerView.Adapter<SelectedCategoryPreviewAdapter.NameViewHolder>() {
     private val names = mutableListOf<String>()
 
+    /**
+     * Replaces preview names and refreshes the list.
+     */
     fun submit(newNames: List<String>) {
         names.clear()
         names.addAll(newNames)
@@ -301,6 +318,9 @@ private class SelectedCategoryPreviewAdapter : RecyclerView.Adapter<SelectedCate
 
     override fun getItemCount(): Int = names.size
 
+    /**
+     * View holder for one selected category label.
+     */
     class NameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(android.R.id.text1)
     }

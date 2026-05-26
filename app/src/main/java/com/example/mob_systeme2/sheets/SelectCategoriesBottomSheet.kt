@@ -13,8 +13,14 @@ import com.example.mob_systeme2.adapters.CategorySelectionAdapter
 import com.example.mob_systeme2.data.CategoryRepo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+/**
+ * Bottom sheet for selecting multiple categories of a todo.
+ */
 class SelectCategoriesBottomSheet : BottomSheetDialogFragment() {
 
+    /**
+     * Callback for returning selected category ids to the host activity.
+     */
     interface Callback {
         fun onCategoriesPicked(ids: Set<String>)
     }
@@ -73,6 +79,9 @@ class SelectCategoriesBottomSheet : BottomSheetDialogFragment() {
     companion object {
         private const val ARG_SELECTED_IDS = "arg_selected_ids"
 
+        /**
+         * Creates a new sheet and provides preselected category ids.
+         */
         fun newInstance(selectedIds: Set<String>): SelectCategoriesBottomSheet {
             return SelectCategoriesBottomSheet().apply {
                 arguments = Bundle().apply {

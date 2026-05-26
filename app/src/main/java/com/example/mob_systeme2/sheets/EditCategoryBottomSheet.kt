@@ -14,8 +14,14 @@ import com.example.mob_systeme2.R
 import com.example.mob_systeme2.data.CategoryRepo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+/**
+ * Bottom sheet for creating a new category or editing/deleting an existing one.
+ */
 class EditCategoryBottomSheet : BottomSheetDialogFragment() {
 
+    /**
+     * Notifies host activity that category data changed and UI should refresh.
+     */
     interface Callback {
         fun onCategoryChanged()
     }
@@ -108,6 +114,9 @@ class EditCategoryBottomSheet : BottomSheetDialogFragment() {
         private val COLOR_KEYS = listOf("blue", "green", "orange", "red", "gray")
         private val ICON_KEYS = listOf("book", "work", "home", "sport", "star")
 
+        /**
+         * Creates a sheet for a specific category id or for creation if id is null.
+         */
         fun newInstance(categoryId: String?): EditCategoryBottomSheet {
             return EditCategoryBottomSheet().apply {
                 arguments = Bundle().apply {
