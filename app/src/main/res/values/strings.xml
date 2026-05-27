@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">mob-systeme2</string>
+    <string name="app_name">MyToDo</string>
     <string name="details_headline">Todo-Details</string>
     <string name="details_subtitle">Change title, description, priority and deadline.</string>
     <string name="details_title_hint">Title</string>
