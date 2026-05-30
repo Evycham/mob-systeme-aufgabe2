@@ -1,6 +1,6 @@
 # MyToDo
-
-Kleine Android-ToDo-App für das Modul **Mobile Systeme**.
+ToDo App für Android.
+Kurzes Android-Projekt (Java, Gradle Kotlin DSL) für die zweite Aufgabe in Mobile Systeme.
 
 ## Voraussetzungen
 - Android Studio (aktuelle Version)
